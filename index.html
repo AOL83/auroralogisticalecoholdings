@@ -1,834 +1,1137 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dragon Egg Character — ALEH Gate</title>
-
-  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    :root{
-      --bg:#03050c;
-      --panel:#070b14;
-      --panel-2:#0b101d;
-      --text:#f5fbff;
-      --muted:#9bb2c9;
-
-      --pink:#ff1ea8;
-      --magenta:#ff4ed8;
-      --red:#ff3d4a;
-      --orange:#ff7a18;
-      --yellow:#ffe600;
-      --lime:#7dff00;
-      --green:#31ff5d;
-      --cyan:#00d9ff;
-      --blue:#2ba7ff;
-
-      --glass:rgba(255,255,255,.04);
-      --line:rgba(255,255,255,.08);
-      --shadow:0 0 22px rgba(0,0,0,.45);
-    }
-
-    *{box-sizing:border-box;margin:0;padding:0}
-
-    html,body{
-      min-height:100%;
-      background:
-        radial-gradient(circle at 50% 15%, rgba(255,230,0,.08), transparent 20%),
-        radial-gradient(circle at 20% 20%, rgba(255,0,153,.10), transparent 30%),
-        radial-gradient(circle at 80% 20%, rgba(0,217,255,.10), transparent 28%),
-        radial-gradient(circle at 50% 75%, rgba(0,255,85,.06), transparent 30%),
-        linear-gradient(180deg, #02040a 0%, #02050d 100%);
-      color:var(--text);
-      font-family:"Rajdhani",system-ui,sans-serif;
-      overflow-x:hidden;
-    }
-
-    body::before{
-      content:"";
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      background:
-        repeating-linear-gradient(
-          to bottom,
-          rgba(255,255,255,.02) 0px,
-          rgba(255,255,255,.02) 1px,
-          transparent 3px,
-          transparent 6px
-        );
-      opacity:.25;
-      mix-blend-mode:screen;
-    }
-
-    .page{
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:24px;
-    }
-
-    .card{
-      position:relative;
-      width:min(100%, 980px);
-      aspect-ratio: 1000 / 1414;
-      min-height:720px;
-      border-radius:28px;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.015)),
-        linear-gradient(135deg, rgba(255,0,140,.08), transparent 30%),
-        linear-gradient(225deg, rgba(0,217,255,.08), transparent 30%),
-        #040811;
-      border:2px solid rgba(255,255,255,.14);
-      box-shadow:
-        inset 0 0 0 1px rgba(255,255,255,.08),
-        inset 0 0 80px rgba(255,255,255,.03),
-        0 0 50px rgba(0,0,0,.45);
-      overflow:hidden;
-      isolation:isolate;
-    }
-
-    .card::before{
-      content:"";
-      position:absolute;
-      inset:8px;
-      border-radius:22px;
-      background:
-        linear-gradient(90deg, rgba(255,30,168,.75), rgba(255,122,24,.75), rgba(255,230,0,.75), rgba(0,217,255,.75), rgba(125,255,0,.75));
-      -webkit-mask:
-        linear-gradient(#000 0 0) content-box,
-        linear-gradient(#000 0 0);
-      -webkit-mask-composite:xor;
-      mask-composite:exclude;
-      padding:2px;
-      pointer-events:none;
-      opacity:.95;
-      filter:drop-shadow(0 0 14px rgba(255,30,168,.25))
-             drop-shadow(0 0 16px rgba(0,217,255,.22))
-             drop-shadow(0 0 18px rgba(255,230,0,.18));
-    }
-
-    .card::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      background:
-        radial-gradient(circle at 0 50%, rgba(255,30,168,.18), transparent 18%),
-        radial-gradient(circle at 100% 55%, rgba(125,255,0,.15), transparent 18%),
-        radial-gradient(circle at 100% 0, rgba(255,230,0,.12), transparent 18%),
-        radial-gradient(circle at 0 100%, rgba(255,80,80,.14), transparent 20%);
-      mix-blend-mode:screen;
-    }
-
-    .inner{
-      position:absolute;
-      inset:18px;
-      border-radius:20px;
-      overflow:hidden;
-    }
-
-    /* top HUD */
-    .top-brand{
-      position:absolute;
-      top:22px;
-      left:50%;
-      transform:translateX(-50%);
-      width:44%;
-      min-width:280px;
-      text-align:center;
-      padding:12px 20px 10px;
-      border-radius:16px;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)),
-        rgba(7,11,20,.78);
-      clip-path:polygon(8% 0, 92% 0, 100% 35%, 95% 100%, 5% 100%, 0 35%);
-      border:1px solid rgba(255,255,255,.10);
-      box-shadow:
-        0 0 18px rgba(255,230,0,.18),
-        0 0 22px rgba(0,217,255,.10);
-      z-index:5;
-    }
-
-    .top-brand .small{
-      font-family:"Orbitron",sans-serif;
-      font-size:.82rem;
-      line-height:1;
-      letter-spacing:.18em;
-      color:var(--yellow);
-      text-transform:uppercase;
-      opacity:.92;
-    }
-
-    .top-brand .big{
-      font-family:"Orbitron",sans-serif;
-      font-weight:900;
-      font-size:clamp(1.6rem, 3.2vw, 2.7rem);
-      line-height:1.05;
-      letter-spacing:.06em;
-      background:linear-gradient(90deg, #ffe600, #aaff66);
-      -webkit-background-clip:text;
-      background-clip:text;
-      color:transparent;
-      text-transform:uppercase;
-      text-shadow:0 0 12px rgba(255,230,0,.15);
-      margin-bottom:4px;
-    }
-
-    /* years */
-    .year-left,
-    .year-right{
-      position:absolute;
-      top:84px;
-      font-family:"Orbitron",sans-serif;
-      font-weight:800;
-      font-size:clamp(1.2rem, 2.2vw, 2rem);
-      letter-spacing:.08em;
-      z-index:4;
-    }
-
-    .year-left{
-      left:34px;
-      color:var(--red);
-      text-shadow:0 0 10px rgba(255,61,74,.4);
-    }
-
-    .year-right{
-      right:34px;
-      color:var(--cyan);
-      text-shadow:0 0 10px rgba(43,167,255,.4);
-    }
-
-    .side-left,
-    .side-right{
-      position:absolute;
-      top:140px;
-      bottom:130px;
-      width:72px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      z-index:4;
-      pointer-events:none;
-    }
-
-    .side-left{ left:8px; }
-    .side-right{ right:8px; }
-
-    .vertical{
-      writing-mode:vertical-rl;
-      text-orientation:mixed;
-      font-family:"Orbitron",sans-serif;
-      font-weight:700;
-      font-size:clamp(.72rem, 1vw, .9rem);
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      opacity:.95;
-      padding:12px 8px;
-      border-radius:14px;
-      background:rgba(8,12,24,.35);
-      border:1px solid rgba(255,255,255,.08);
-      backdrop-filter:blur(4px);
-    }
-
-    .side-left .vertical{
-      color:var(--red);
-      text-shadow:0 0 12px rgba(255,61,74,.35);
-    }
-
-    .side-right .vertical{
-      color:var(--yellow);
-      text-shadow:0 0 12px rgba(255,230,0,.25);
-    }
-
-    /* title area */
-    .hero-title{
-      position:absolute;
-      top:118px;
-      left:110px;
-      right:110px;
-      text-align:center;
-      z-index:4;
-    }
-
-    .hero-title .egg-title{
-      font-family:"Orbitron",sans-serif;
-      font-weight:900;
-      font-size:clamp(2.6rem, 7vw, 6rem);
-      line-height:.95;
-      text-transform:uppercase;
-      letter-spacing:.03em;
-      background:linear-gradient(90deg, var(--pink), #ff4f83, var(--magenta), #8c4fff, var(--cyan));
-      -webkit-background-clip:text;
-      background-clip:text;
-      color:transparent;
-      filter:drop-shadow(0 0 14px rgba(255,0,153,.22));
-    }
-
-    .hero-title .sub{
-      margin-top:10px;
-      font-family:"Orbitron",sans-serif;
-      font-weight:700;
-      font-size:clamp(1rem, 2.1vw, 2rem);
-      letter-spacing:.42em;
-      text-transform:uppercase;
-      color:var(--yellow);
-      text-shadow:0 0 12px rgba(255,230,0,.22);
-      padding-left:.42em;
-    }
-
-    /* centre display */
-    .display-shell{
-      position:absolute;
-      top:270px;
-      left:94px;
-      right:94px;
-      height:calc(100% - 545px);
-      min-height:360px;
-      border-radius:18px;
-      background:
-        radial-gradient(circle at 50% 45%, rgba(0,255,100,.10), transparent 24%),
-        radial-gradient(circle at 35% 55%, rgba(255,0,150,.08), transparent 26%),
-        radial-gradient(circle at 65% 55%, rgba(0,217,255,.08), transparent 26%),
-        linear-gradient(180deg, rgba(6,10,20,.92), rgba(2,4,10,.92));
-      border:1px solid rgba(255,255,255,.10);
-      box-shadow:
-        inset 0 0 0 1px rgba(255,255,255,.05),
-        inset 0 0 30px rgba(255,255,255,.03),
-        0 0 30px rgba(0,0,0,.25);
-      overflow:hidden;
-      z-index:2;
-      clip-path:polygon(5% 0, 95% 0, 100% 8%, 100% 92%, 95% 100%, 5% 100%, 0 92%, 0 8%);
-    }
-
-    .display-shell::before{
-      content:"";
-      position:absolute;
-      inset:10px;
-      border:2px solid transparent;
-      border-image:linear-gradient(90deg, var(--pink), var(--red), var(--cyan)) 1;
-      clip-path:polygon(5% 0, 95% 0, 100% 8%, 100% 92%, 95% 100%, 5% 100%, 0 92%, 0 8%);
-      pointer-events:none;
-      z-index:3;
-      opacity:.95;
-      filter:drop-shadow(0 0 10px rgba(255,0,153,.2)) drop-shadow(0 0 10px rgba(0,217,255,.18));
-    }
-
-    .display-shell::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:
-        radial-gradient(circle at 50% 50%, rgba(0,255,100,.08), transparent 34%),
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'%3E%3Cg fill='none' stroke='rgba(0,255,140,0.08)' stroke-width='1'%3E%3Ccircle cx='150' cy='150' r='110'/%3E%3Ccircle cx='150' cy='150' r='85'/%3E%3Ccircle cx='150' cy='150' r='58'/%3E%3Cpath d='M150 40L150 260M40 150L260 150M74 74L226 226M226 74L74 226'/%3E%3C/g%3E%3C/svg%3E") center/cover no-repeat;
-      mix-blend-mode:screen;
-      opacity:.55;
-      pointer-events:none;
-      z-index:1;
-    }
-
-    model-viewer{
-      position:absolute;
-      inset:0;
-      width:100%;
-      height:100%;
-      background:transparent;
-      --poster-color:transparent;
-      z-index:2;
-    }
-
-    .status-line{
-      position:absolute;
-      left:50%;
-      transform:translateX(-50%);
-      bottom:18px;
-      width:86%;
-      text-align:center;
-      padding:10px 16px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.12);
-      background:rgba(0,0,0,.45);
-      font-family:"Orbitron",sans-serif;
-      font-size:.75rem;
-      letter-spacing:.16em;
-      text-transform:uppercase;
-      color:#dbeeff;
-      z-index:4;
-      backdrop-filter:blur(5px);
-      box-shadow:0 0 14px rgba(255,255,255,.06);
-    }
-
-    /* bottom stats */
-    .stats{
-      position:absolute;
-      left:92px;
-      right:92px;
-      bottom:56px;
-      display:grid;
-      gap:12px;
-      z-index:4;
-    }
-
-    .stat-row{
-      display:grid;
-      grid-template-columns: 64px 1fr 170px;
-      gap:12px;
-      align-items:center;
-      min-height:48px;
-    }
-
-    .icon-hex{
-      height:48px;
-      display:grid;
-      place-items:center;
-      font-family:"Orbitron",sans-serif;
-      font-weight:900;
-      font-size:1.1rem;
-      color:#fff;
-      clip-path:polygon(20% 0, 80% 0, 100% 50%, 80% 100%, 20% 100%, 0 50%);
-      border:2px solid currentColor;
-      background:rgba(0,0,0,.45);
-      box-shadow:inset 0 0 12px rgba(255,255,255,.04), 0 0 18px currentColor;
-    }
-
-    .stat-label{
-      height:48px;
-      display:flex;
-      align-items:center;
-      padding:0 18px;
-      clip-path:polygon(4% 0, 96% 0, 100% 50%, 96% 100%, 4% 100%, 0 50%);
-      border:2px solid rgba(255,255,255,.12);
-      background:linear-gradient(180deg, rgba(25,15,18,.82), rgba(5,8,14,.94));
-      font-family:"Orbitron",sans-serif;
-      font-size:clamp(.95rem, 1.8vw, 1.25rem);
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      color:#e8edf7;
-      text-shadow:0 0 10px rgba(255,255,255,.1);
-      overflow:hidden;
-      position:relative;
-    }
-
-    .stat-label::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:
-        linear-gradient(90deg, transparent, rgba(255,255,255,.04), transparent);
-      transform:translateX(-100%);
-      animation:shine 4s linear infinite;
-    }
-
-    .stat-slot{
-      height:48px;
-      clip-path:polygon(8% 0, 92% 0, 100% 50%, 92% 100%, 8% 100%, 0 50%);
-      border:2px solid currentColor;
-      background:rgba(5,9,16,.55);
-      box-shadow:
-        inset 0 0 16px rgba(255,255,255,.03),
-        0 0 16px currentColor;
-    }
-
-    .red{ color:var(--red); }
-    .yellow{ color:var(--yellow); }
-    .pink{ color:var(--magenta); }
-    .blue{ color:var(--blue); }
-    .green{ color:var(--lime); }
-
-    .footer-note{
-      position:absolute;
-      left:0;
-      right:0;
-      bottom:18px;
-      text-align:center;
-      font-family:"Orbitron",sans-serif;
-      font-size:clamp(.8rem, 1.1vw, 1rem);
-      letter-spacing:.28em;
-      text-transform:uppercase;
-      color:var(--yellow);
-      text-shadow:0 0 10px rgba(255,230,0,.18);
-      z-index:4;
-    }
-
-    .footer-note span:first-child{ color:var(--red); }
-    .footer-note span:last-child{ color:var(--cyan); }
-
-    /* action buttons */
-    .button-bar{
-      position:absolute;
-      right:22px;
-      bottom:18px;
-      display:flex;
-      gap:8px;
-      z-index:6;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-      max-width:320px;
-    }
-
-    .button-bar button,
-    .button-bar a{
-      text-decoration:none;
-      border:none;
-      outline:none;
-      padding:10px 12px;
-      border-radius:999px;
-      background:rgba(0,0,0,.55);
-      border:1px solid rgba(255,255,255,.12);
-      color:#eaf7ff;
-      font-family:"Orbitron",sans-serif;
-      font-size:.62rem;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      cursor:pointer;
-      transition:.2s ease;
-    }
-
-    .button-bar button:hover,
-    .button-bar a:hover{
-      transform:translateY(-1px);
-      box-shadow:0 0 12px rgba(0,217,255,.18);
-      background:rgba(0,20,30,.8);
-    }
-
-    .button-bar .enter{
-      border-color:rgba(125,255,0,.35);
-      box-shadow:0 0 12px rgba(125,255,0,.12);
-    }
-
-    .button-bar .asset{
-      border-color:rgba(0,217,255,.35);
-    }
-
-    .next-gen{
-      position:absolute;
-      right:20px;
-      bottom:112px;
-      width:74px;
-      text-align:center;
-      font-family:"Orbitron",sans-serif;
-      font-size:.76rem;
-      line-height:1.15;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-      color:var(--yellow);
-      z-index:5;
-      text-shadow:0 0 12px rgba(255,230,0,.18);
-    }
-
-    @keyframes shine{
-      0%{ transform:translateX(-100%); }
-      100%{ transform:translateX(100%); }
-    }
-
-    @media (max-width: 900px){
-      .card{
-        aspect-ratio:auto;
-        min-height:1250px;
-      }
-
-      .top-brand{
-        width:58%;
-      }
-
-      .hero-title{
-        left:70px;
-        right:70px;
-        top:120px;
-      }
-
-      .display-shell{
-        left:64px;
-        right:64px;
-        top:255px;
-        height:430px;
-      }
-
-      .stats{
-        left:60px;
-        right:60px;
-        bottom:90px;
-      }
-
-      .stat-row{
-        grid-template-columns: 54px 1fr 120px;
-        min-height:42px;
-      }
-
-      .icon-hex,.stat-label,.stat-slot{
-        height:42px;
-      }
-
-      .button-bar{
-        left:40px;
-        right:40px;
-        max-width:none;
-        justify-content:center;
-        bottom:22px;
-      }
-
-      .footer-note{
-        bottom:68px;
-        font-size:.75rem;
-      }
-
-      .side-left,.side-right{
-        width:56px;
-      }
-    }
-
-    @media (max-width: 640px){
-      .page{ padding:10px; }
-
-      .card{
-        border-radius:18px;
-        min-height:1120px;
-      }
-
-      .inner{ inset:12px; }
-
-      .top-brand{
-        top:16px;
-        width:70%;
-        min-width:0;
-      }
-
-      .year-left,.year-right{
-        top:76px;
-        font-size:1rem;
-      }
-
-      .hero-title{
-        top:108px;
-        left:46px;
-        right:46px;
-      }
-
-      .hero-title .sub{
-        letter-spacing:.22em;
-        padding-left:.22em;
-      }
-
-      .side-left,.side-right{
-        width:36px;
-        top:130px;
-        bottom:160px;
-      }
-
-      .vertical{
-        font-size:.52rem;
-        letter-spacing:.12em;
-        padding:8px 4px;
-      }
-
-      .display-shell{
-        left:34px;
-        right:34px;
-        top:225px;
-        height:370px;
-      }
-
-      .stats{
-        left:28px;
-        right:28px;
-        bottom:126px;
-      }
-
-      .stat-row{
-        grid-template-columns: 44px 1fr 84px;
-        gap:8px;
-      }
-
-      .icon-hex,.stat-label,.stat-slot{
-        height:38px;
-      }
-
-      .stat-label{
-        padding:0 12px;
-        font-size:.82rem;
-      }
-
-      .button-bar{
-        left:14px;
-        right:14px;
-        bottom:16px;
-      }
-
-      .button-bar button,
-      .button-bar a{
-        font-size:.54rem;
-        padding:9px 10px;
-      }
-
-      .footer-note{
-        bottom:86px;
-        font-size:.64rem;
-        letter-spacing:.16em;
-      }
-
-      .next-gen{
-        right:10px;
-        bottom:178px;
-        width:56px;
-        font-size:.58rem;
-      }
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dragon Egg Character — ALEH Gate</title>
+
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#03050c;
+  --panel:#070b14;
+  --panel-2:#0b101d;
+  --text:#f5fbff;
+  --muted:#9bb2c9;
+
+  --pink:#ff1ea8;
+  --magenta:#ff4ed8;
+  --red:#ff3d4a;
+  --orange:#ff7a18;
+  --yellow:#ffe600;
+  --lime:#7dff00;
+  --green:#31ff5d;
+  --cyan:#00d9ff;
+  --blue:#2ba7ff;
+
+  --glass:rgba(255,255,255,.04);
+  --line:rgba(255,255,255,.08);
+  --shadow:0 0 22px rgba(0,0,0,.45);
+  --mono:"SF Mono", Menlo, Consolas, monospace;
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html,body{
+  min-height:100%;
+  background:
+    radial-gradient(circle at 50% 15%, rgba(255,230,0,.08), transparent 20%),
+    radial-gradient(circle at 20% 20%, rgba(255,0,153,.10), transparent 30%),
+    radial-gradient(circle at 80% 20%, rgba(0,217,255,.10), transparent 28%),
+    radial-gradient(circle at 50% 75%, rgba(0,255,85,.06), transparent 30%),
+    linear-gradient(180deg, #02040a 0%, #02050d 100%);
+  color:var(--text);
+  font-family:"Rajdhani",system-ui,sans-serif;
+  overflow-x:hidden;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,.022) 0px,
+      rgba(255,255,255,.022) 1px,
+      transparent 3px,
+      transparent 6px
+    );
+  opacity:.26;
+  mix-blend-mode:screen;
+  z-index:50;
+}
+
+body::after{
+  content:"";
+  position:fixed;
+  inset:-20%;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 18% 10%, rgba(255,255,255,.12), transparent 8%),
+    radial-gradient(circle at 84% 6%, rgba(255,255,255,.12), transparent 9%),
+    radial-gradient(circle at 50% 110%, rgba(0,255,120,.10), transparent 22%);
+  filter:blur(18px);
+  opacity:.6;
+  mix-blend-mode:screen;
+  z-index:49;
+}
+
+.page{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+}
+
+.card{
+  position:relative;
+  width:min(100%, 980px);
+  aspect-ratio:1000 / 1414;
+  min-height:720px;
+  border-radius:30px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.015)),
+    linear-gradient(135deg, rgba(255,0,140,.08), transparent 30%),
+    linear-gradient(225deg, rgba(0,217,255,.08), transparent 30%),
+    #040811;
+  border:2px solid rgba(255,255,255,.14);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.08),
+    inset 0 0 80px rgba(255,255,255,.03),
+    0 0 50px rgba(0,0,0,.45),
+    0 0 32px rgba(255,30,168,.10),
+    0 0 36px rgba(0,217,255,.08);
+  overflow:hidden;
+  isolation:isolate;
+}
+
+.card::before{
+  content:"";
+  position:absolute;
+  inset:8px;
+  border-radius:24px;
+  background:
+    linear-gradient(90deg, rgba(255,30,168,.85), rgba(255,122,24,.75), rgba(255,230,0,.82), rgba(0,217,255,.80), rgba(125,255,0,.85));
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
+  padding:3px;
+  pointer-events:none;
+  opacity:.96;
+  filter:
+    drop-shadow(0 0 14px rgba(255,30,168,.25))
+    drop-shadow(0 0 16px rgba(0,217,255,.22))
+    drop-shadow(0 0 18px rgba(255,230,0,.18));
+  z-index:7;
+}
+
+.card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 0 50%, rgba(255,30,168,.18), transparent 18%),
+    radial-gradient(circle at 100% 55%, rgba(125,255,0,.15), transparent 18%),
+    radial-gradient(circle at 100% 0, rgba(255,230,0,.12), transparent 18%),
+    radial-gradient(circle at 0 100%, rgba(255,80,80,.14), transparent 20%);
+  mix-blend-mode:screen;
+  z-index:6;
+}
+
+.inner{
+  position:absolute;
+  inset:18px;
+  border-radius:22px;
+  overflow:hidden;
+}
+
+/* smoky corner glass */
+.smoke{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:6;
+  background:
+    radial-gradient(ellipse at 8% 3%, rgba(255,255,255,.20), transparent 12%),
+    radial-gradient(ellipse at 92% 3%, rgba(255,255,255,.18), transparent 12%),
+    radial-gradient(ellipse at 8% 98%, rgba(255,80,80,.12), transparent 15%),
+    radial-gradient(ellipse at 92% 98%, rgba(125,255,0,.12), transparent 15%);
+  filter:blur(3px);
+  opacity:.78;
+  mix-blend-mode:screen;
+}
+
+/* corner circuit panels */
+.corner{
+  position:absolute;
+  width:180px;
+  height:110px;
+  z-index:5;
+  pointer-events:none;
+  opacity:.95;
+}
+
+.corner::before,
+.corner::after{
+  content:"";
+  position:absolute;
+  border:2px solid currentColor;
+  filter:drop-shadow(0 0 8px currentColor);
+}
+
+.corner::before{
+  inset:0;
+  clip-path:polygon(0 0, 100% 0, 75% 20%, 28% 20%, 16% 44%, 0 44%);
+}
+
+.corner::after{
+  left:22px;
+  top:26px;
+  width:90px;
+  height:42px;
+  border-width:1px;
+  clip-path:polygon(0 0, 100% 0, 78% 35%, 44% 35%, 32% 100%, 0 100%);
+  opacity:.65;
+}
+
+.corner.tl{
+  top:24px;
+  left:24px;
+  color:var(--pink);
+}
+
+.corner.tr{
+  top:24px;
+  right:24px;
+  transform:scaleX(-1);
+  color:var(--lime);
+}
+
+.corner.bl{
+  bottom:24px;
+  left:24px;
+  transform:scaleY(-1);
+  color:var(--red);
+}
+
+.corner.br{
+  bottom:24px;
+  right:24px;
+  transform:scale(-1);
+  color:var(--lime);
+}
+
+/* fake barcode / side tech strips */
+.barcode{
+  position:absolute;
+  z-index:5;
+  pointer-events:none;
+  display:flex;
+  gap:4px;
+  align-items:flex-end;
+  opacity:.92;
+}
+
+.barcode span{
+  display:block;
+  width:4px;
+  background:currentColor;
+  box-shadow:0 0 8px currentColor;
+}
+
+.barcode.left{
+  left:30px;
+  bottom:90px;
+  height:70px;
+  color:var(--red);
+}
+
+.barcode.right{
+  right:34px;
+  top:310px;
+  height:115px;
+  color:var(--yellow);
+  transform:rotate(90deg);
+  transform-origin:center;
+}
+
+.barcode.bottom{
+  left:190px;
+  bottom:26px;
+  height:36px;
+  color:var(--red);
+}
+
+.barcode span:nth-child(1){height:30%}
+.barcode span:nth-child(2){height:70%}
+.barcode span:nth-child(3){height:45%}
+.barcode span:nth-child(4){height:95%}
+.barcode span:nth-child(5){height:55%}
+.barcode span:nth-child(6){height:82%}
+.barcode span:nth-child(7){height:34%}
+.barcode span:nth-child(8){height:100%}
+.barcode span:nth-child(9){height:62%}
+.barcode span:nth-child(10){height:42%}
+.barcode span:nth-child(11){height:88%}
+.barcode span:nth-child(12){height:58%}
+
+.top-brand{
+  position:absolute;
+  top:22px;
+  left:50%;
+  transform:translateX(-50%);
+  width:46%;
+  min-width:280px;
+  text-align:center;
+  padding:12px 20px 10px;
+  border-radius:16px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.02)),
+    rgba(7,11,20,.82);
+  clip-path:polygon(8% 0, 92% 0, 100% 35%, 95% 100%, 5% 100%, 0 35%);
+  border:1px solid rgba(255,255,255,.10);
+  box-shadow:
+    0 0 18px rgba(255,230,0,.18),
+    0 0 22px rgba(0,217,255,.10);
+  z-index:8;
+}
+
+.top-brand .small{
+  font-family:"Orbitron",sans-serif;
+  font-size:.82rem;
+  line-height:1;
+  letter-spacing:.18em;
+  color:var(--yellow);
+  text-transform:uppercase;
+  opacity:.92;
+}
+
+.top-brand .big{
+  font-family:"Orbitron",sans-serif;
+  font-weight:900;
+  font-size:clamp(1.6rem, 3.2vw, 2.7rem);
+  line-height:1.05;
+  letter-spacing:.06em;
+  background:linear-gradient(90deg, #ffe600, #aaff66);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  text-transform:uppercase;
+  text-shadow:0 0 12px rgba(255,230,0,.15);
+  margin-bottom:4px;
+}
+
+.year-left,
+.year-right{
+  position:absolute;
+  top:84px;
+  font-family:"Orbitron",sans-serif;
+  font-weight:800;
+  font-size:clamp(1.2rem, 2.2vw, 2rem);
+  letter-spacing:.08em;
+  z-index:8;
+}
+
+.year-left{
+  left:34px;
+  color:var(--red);
+  text-shadow:0 0 10px rgba(255,61,74,.4);
+}
+
+.year-right{
+  right:34px;
+  color:var(--cyan);
+  text-shadow:0 0 10px rgba(43,167,255,.4);
+}
+
+.side-left,
+.side-right{
+  position:absolute;
+  top:140px;
+  bottom:130px;
+  width:72px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:8;
+  pointer-events:none;
+}
+
+.side-left{ left:8px; }
+.side-right{ right:8px; }
+
+.vertical{
+  writing-mode:vertical-rl;
+  text-orientation:mixed;
+  font-family:"Orbitron",sans-serif;
+  font-weight:700;
+  font-size:clamp(.72rem, 1vw, .9rem);
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  opacity:.95;
+  padding:12px 8px;
+  border-radius:14px;
+  background:rgba(8,12,24,.35);
+  border:1px solid rgba(255,255,255,.08);
+  backdrop-filter:blur(4px);
+}
+
+.side-left .vertical{
+  color:var(--red);
+  text-shadow:0 0 12px rgba(255,61,74,.35);
+}
+
+.side-right .vertical{
+  color:var(--yellow);
+  text-shadow:0 0 12px rgba(255,230,0,.25);
+}
+
+.side-icon{
+  position:absolute;
+  left:32px;
+  z-index:8;
+  width:46px;
+  height:46px;
+  display:grid;
+  place-items:center;
+  border:2px solid currentColor;
+  color:var(--red);
+  clip-path:polygon(20% 0, 80% 0, 100% 50%, 80% 100%, 20% 100%, 0 50%);
+  background:rgba(0,0,0,.38);
+  box-shadow:0 0 14px currentColor;
+  font-size:1.2rem;
+}
+
+.side-icon.one{ top:470px; }
+.side-icon.two{ top:560px; }
+
+.hero-title{
+  position:absolute;
+  top:118px;
+  left:110px;
+  right:110px;
+  text-align:center;
+  z-index:8;
+}
+
+.hero-title .egg-title{
+  font-family:"Orbitron",sans-serif;
+  font-weight:900;
+  font-size:clamp(2.6rem, 7vw, 6rem);
+  line-height:.95;
+  text-transform:uppercase;
+  letter-spacing:.03em;
+  background:linear-gradient(90deg, var(--pink), #ff4f83, var(--magenta), #8c4fff, var(--cyan));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  filter:drop-shadow(0 0 14px rgba(255,0,153,.22));
+}
+
+.hero-title .sub{
+  margin-top:10px;
+  font-family:"Orbitron",sans-serif;
+  font-weight:700;
+  font-size:clamp(1rem, 2.1vw, 2rem);
+  letter-spacing:.42em;
+  text-transform:uppercase;
+  color:var(--yellow);
+  text-shadow:0 0 12px rgba(255,230,0,.22);
+  padding-left:.42em;
+}
+
+.display-shell{
+  position:absolute;
+  top:270px;
+  left:94px;
+  right:94px;
+  height:calc(100% - 545px);
+  min-height:360px;
+  border-radius:18px;
+  background:
+    radial-gradient(circle at 50% 45%, rgba(0,255,100,.10), transparent 24%),
+    radial-gradient(circle at 35% 55%, rgba(255,0,150,.08), transparent 26%),
+    radial-gradient(circle at 65% 55%, rgba(0,217,255,.08), transparent 26%),
+    linear-gradient(180deg, rgba(6,10,20,.92), rgba(2,4,10,.92));
+  border:1px solid rgba(255,255,255,.10);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.05),
+    inset 0 0 30px rgba(255,255,255,.03),
+    0 0 30px rgba(0,0,0,.25);
+  overflow:hidden;
+  z-index:3;
+  clip-path:polygon(5% 0, 95% 0, 100% 8%, 100% 92%, 95% 100%, 5% 100%, 0 92%, 0 8%);
+}
+
+.display-shell::before{
+  content:"";
+  position:absolute;
+  inset:10px;
+  border:2px solid transparent;
+  border-image:linear-gradient(90deg, var(--pink), var(--red), var(--cyan)) 1;
+  clip-path:polygon(5% 0, 95% 0, 100% 8%, 100% 92%, 95% 100%, 5% 100%, 0 92%, 0 8%);
+  pointer-events:none;
+  z-index:4;
+  opacity:.95;
+  filter:drop-shadow(0 0 10px rgba(255,0,153,.2)) drop-shadow(0 0 10px rgba(0,217,255,.18));
+}
+
+.display-shell::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(0,255,100,.08), transparent 34%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'%3E%3Cg fill='none' stroke='rgba(0,255,140,0.08)' stroke-width='1'%3E%3Ccircle cx='150' cy='150' r='110'/%3E%3Ccircle cx='150' cy='150' r='85'/%3E%3Ccircle cx='150' cy='150' r='58'/%3E%3Cpath d='M150 40L150 260M40 150L260 150M74 74L226 226M226 74L74 226'/%3E%3C/g%3E%3C/svg%3E") center/cover no-repeat;
+  mix-blend-mode:screen;
+  opacity:.55;
+  pointer-events:none;
+  z-index:1;
+}
+
+.holo-glow{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(ellipse at 50% 84%, rgba(255,30,168,.22), transparent 18%),
+    radial-gradient(ellipse at 50% 50%, rgba(0,217,255,.10), transparent 40%);
+  z-index:2;
+  mix-blend-mode:screen;
+}
+
+model-viewer{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  background:transparent;
+  --poster-color:transparent;
+  z-index:3;
+  cursor:grab;
+}
+
+model-viewer:active{
+  cursor:grabbing;
+}
+
+model-viewer::part(default-progress-bar){
+  background-color:var(--cyan);
+}
+
+.status-line{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  bottom:18px;
+  width:86%;
+  text-align:center;
+  padding:10px 16px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(0,0,0,.50);
+  font-family:"Orbitron",sans-serif;
+  font-size:.75rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:#dbeeff;
+  z-index:5;
+  backdrop-filter:blur(5px);
+  box-shadow:0 0 14px rgba(255,255,255,.06);
+}
+
+/* stat bars */
+.stats{
+  position:absolute;
+  left:92px;
+  right:92px;
+  bottom:56px;
+  display:grid;
+  gap:12px;
+  z-index:8;
+}
+
+.stat-row{
+  display:grid;
+  grid-template-columns:64px 1fr 170px;
+  gap:12px;
+  align-items:center;
+  min-height:48px;
+}
+
+.icon-hex{
+  height:48px;
+  display:grid;
+  place-items:center;
+  font-family:"Orbitron",sans-serif;
+  font-weight:900;
+  font-size:1.15rem;
+  color:#fff;
+  clip-path:polygon(20% 0, 80% 0, 100% 50%, 80% 100%, 20% 100%, 0 50%);
+  border:2px solid currentColor;
+  background:rgba(0,0,0,.48);
+  box-shadow:inset 0 0 12px rgba(255,255,255,.04), 0 0 18px currentColor;
+}
+
+.stat-label{
+  height:48px;
+  display:flex;
+  align-items:center;
+  padding:0 18px;
+  clip-path:polygon(4% 0, 96% 0, 100% 50%, 96% 100%, 4% 100%, 0 50%);
+  border:2px solid rgba(255,255,255,.12);
+  background:linear-gradient(180deg, rgba(25,15,18,.82), rgba(5,8,14,.94));
+  font-family:"Orbitron",sans-serif;
+  font-size:clamp(.95rem, 1.8vw, 1.25rem);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:#e8edf7;
+  text-shadow:0 0 10px rgba(255,255,255,.1);
+  overflow:hidden;
+  position:relative;
+}
+
+.stat-label::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.05), transparent);
+  transform:translateX(-100%);
+  animation:shine 4s linear infinite;
+}
+
+.stat-slot{
+  height:48px;
+  clip-path:polygon(8% 0, 92% 0, 100% 50%, 92% 100%, 8% 100%, 0 50%);
+  border:2px solid currentColor;
+  background:rgba(5,9,16,.58);
+  box-shadow:
+    inset 0 0 16px rgba(255,255,255,.03),
+    0 0 16px currentColor;
+  position:relative;
+  overflow:hidden;
+}
+
+.stat-slot::after{
+  content:"";
+  position:absolute;
+  inset:8px 18px;
+  border-radius:999px;
+  background:linear-gradient(90deg, currentColor, transparent);
+  opacity:.18;
+}
+
+.red{ color:var(--red); }
+.yellow{ color:var(--yellow); }
+.pink{ color:var(--magenta); }
+.blue{ color:var(--blue); }
+.green{ color:var(--lime); }
+
+.footer-note{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:18px;
+  text-align:center;
+  font-family:"Orbitron",sans-serif;
+  font-size:clamp(.8rem, 1.1vw, 1rem);
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  color:var(--yellow);
+  text-shadow:0 0 10px rgba(255,230,0,.18);
+  z-index:8;
+}
+
+.footer-note span:first-child{ color:var(--red); }
+.footer-note span:last-child{ color:var(--cyan); }
+
+.button-bar{
+  position:absolute;
+  right:22px;
+  bottom:18px;
+  display:flex;
+  gap:8px;
+  z-index:12;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+  max-width:360px;
+}
+
+.button-bar button,
+.button-bar a{
+  text-decoration:none;
+  border:none;
+  outline:none;
+  padding:10px 12px;
+  border-radius:999px;
+  background:rgba(0,0,0,.60);
+  border:1px solid rgba(255,255,255,.12);
+  color:#eaf7ff;
+  font-family:"Orbitron",sans-serif;
+  font-size:.60rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:.2s ease;
+}
+
+.button-bar button:hover,
+.button-bar a:hover{
+  transform:translateY(-1px);
+  box-shadow:0 0 12px rgba(0,217,255,.18);
+  background:rgba(0,20,30,.82);
+}
+
+.button-bar .enter{
+  border-color:rgba(125,255,0,.40);
+  box-shadow:0 0 12px rgba(125,255,0,.12);
+}
+
+.button-bar .asset{
+  border-color:rgba(0,217,255,.38);
+}
+
+.next-gen{
+  position:absolute;
+  right:20px;
+  bottom:112px;
+  width:74px;
+  text-align:center;
+  font-family:"Orbitron",sans-serif;
+  font-size:.76rem;
+  line-height:1.15;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--yellow);
+  z-index:9;
+  text-shadow:0 0 12px rgba(255,230,0,.18);
+}
+
+@keyframes shine{
+  0%{ transform:translateX(-100%); }
+  100%{ transform:translateX(100%); }
+}
+
+@media (max-width:900px){
+  .card{
+    aspect-ratio:auto;
+    min-height:1250px;
+  }
+
+  .top-brand{
+    width:58%;
+  }
+
+  .hero-title{
+    left:70px;
+    right:70px;
+    top:120px;
+  }
+
+  .display-shell{
+    left:64px;
+    right:64px;
+    top:255px;
+    height:430px;
+  }
+
+  .stats{
+    left:60px;
+    right:60px;
+    bottom:90px;
+  }
+
+  .stat-row{
+    grid-template-columns:54px 1fr 120px;
+    min-height:42px;
+  }
+
+  .icon-hex,.stat-label,.stat-slot{
+    height:42px;
+  }
+
+  .button-bar{
+    left:40px;
+    right:40px;
+    max-width:none;
+    justify-content:center;
+    bottom:22px;
+  }
+
+  .footer-note{
+    bottom:68px;
+    font-size:.75rem;
+  }
+
+  .side-left,.side-right{
+    width:56px;
+  }
+}
+
+@media (max-width:640px){
+  .page{
+    padding:10px;
+  }
+
+  .card{
+    border-radius:18px;
+    min-height:1120px;
+  }
+
+  .inner{
+    inset:12px;
+  }
+
+  .top-brand{
+    top:16px;
+    width:70%;
+    min-width:0;
+  }
+
+  .year-left,.year-right{
+    top:76px;
+    font-size:1rem;
+  }
+
+  .hero-title{
+    top:108px;
+    left:46px;
+    right:46px;
+  }
+
+  .hero-title .sub{
+    letter-spacing:.22em;
+    padding-left:.22em;
+  }
+
+  .side-left,.side-right{
+    width:36px;
+    top:130px;
+    bottom:160px;
+  }
+
+  .vertical{
+    font-size:.52rem;
+    letter-spacing:.12em;
+    padding:8px 4px;
+  }
+
+  .side-icon{
+    display:none;
+  }
+
+  .display-shell{
+    left:34px;
+    right:34px;
+    top:225px;
+    height:370px;
+  }
+
+  .stats{
+    left:28px;
+    right:28px;
+    bottom:126px;
+  }
+
+  .stat-row{
+    grid-template-columns:44px 1fr 84px;
+    gap:8px;
+  }
+
+  .icon-hex,.stat-label,.stat-slot{
+    height:38px;
+  }
+
+  .stat-label{
+    padding:0 12px;
+    font-size:.82rem;
+  }
+
+  .button-bar{
+    left:14px;
+    right:14px;
+    bottom:16px;
+  }
+
+  .button-bar button,
+  .button-bar a{
+    font-size:.54rem;
+    padding:9px 10px;
+  }
+
+  .footer-note{
+    bottom:86px;
+    font-size:.64rem;
+    letter-spacing:.16em;
+  }
+
+  .next-gen{
+    right:10px;
+    bottom:178px;
+    width:56px;
+    font-size:.58rem;
+  }
+}
+</style>
 </head>
+
 <body>
-  <div class="page">
-    <section class="card">
-      <div class="inner">
+<div class="page">
+  <section class="card">
+    <div class="inner">
 
-        <div class="top-brand">
-          <div class="big">Terence OS</div>
-          <div class="small">Operating Systems</div>
-        </div>
+      <div class="smoke"></div>
 
-        <div class="year-left">2026</div>
-        <div class="year-right">2026</div>
+      <div class="corner tl"></div>
+      <div class="corner tr"></div>
+      <div class="corner bl"></div>
+      <div class="corner br"></div>
 
-        <div class="side-left">
-          <div class="vertical">未来は今ここにある</div>
-        </div>
-
-        <div class="side-right">
-          <div class="vertical">Dragon // Character</div>
-        </div>
-
-        <header class="hero-title">
-          <div class="egg-title">Dragon Egg</div>
-          <div class="sub">Character</div>
-        </header>
-
-        <div class="display-shell">
-          <model-viewer
-            id="dragonEgg"
-            src="./assets/dragon-egg.glb?v=card-style-001"
-            alt="Dragon Egg live GLB"
-            auto-rotate
-            auto-rotate-delay="0"
-            rotation-per-second="18deg"
-            camera-controls
-            touch-action="pan-y"
-            interaction-prompt="none"
-            shadow-intensity="0.95"
-            shadow-softness="0.7"
-            exposure="0.9"
-            environment-image="neutral"
-            camera-orbit="0deg 74deg 3.4m"
-            min-camera-orbit="auto auto 2.5m"
-            max-camera-orbit="auto auto 6m"
-            field-of-view="26deg"
-            loading="eager"
-            reveal="auto">
-          </model-viewer>
-
-          <div class="status-line" id="statusText">
-            Live Aurora Dragon Egg GLB Runtime Active
-          </div>
-        </div>
-
-        <div class="stats">
-          <div class="stat-row">
-            <div class="icon-hex red">✊</div>
-            <div class="stat-label">Strength</div>
-            <div class="stat-slot red"></div>
-          </div>
-
-          <div class="stat-row">
-            <div class="icon-hex yellow">🧠</div>
-            <div class="stat-label">Intelligence</div>
-            <div class="stat-slot yellow"></div>
-          </div>
-
-          <div class="stat-row">
-            <div class="icon-hex pink">➜</div>
-            <div class="stat-label">Speed</div>
-            <div class="stat-slot pink"></div>
-          </div>
-
-          <div class="stat-row">
-            <div class="icon-hex blue">▣</div>
-            <div class="stat-label">Tech Level</div>
-            <div class="stat-slot blue"></div>
-          </div>
-
-          <div class="stat-row">
-            <div class="icon-hex green">🐉</div>
-            <div class="stat-label">Dragon Bond</div>
-            <div class="stat-slot green"></div>
-          </div>
-        </div>
-
-        <div class="next-gen">Next<br>Gen</div>
-
-        <div class="footer-note">
-          <span>Raw Power.</span> Future <span>Legend.</span>
-        </div>
-
-        <div class="button-bar">
-          <button class="enter" id="enterGate">Enter ALEH Gate</button>
-          <button id="toggleRotate">Rotation On</button>
-          <button id="resetView">Reset View</button>
-          <a class="asset" href="./assets/dragon-egg.glb?v=card-style-001" target="_blank" rel="noopener">Open GLB Asset</a>
-        </div>
-
+      <div class="barcode left">
+        <span></span><span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span><span></span>
       </div>
-    </section>
-  </div>
 
-  <script>
-    const viewer = document.getElementById('dragonEgg');
-    const statusText = document.getElementById('statusText');
-    const toggleRotate = document.getElementById('toggleRotate');
-    const resetView = document.getElementById('resetView');
-    const enterGate = document.getElementById('enterGate');
+      <div class="barcode right">
+        <span></span><span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
 
-    let rotating = true;
+      <div class="barcode bottom">
+        <span></span><span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
 
-    viewer.addEventListener('load', () => {
-      statusText.textContent = 'Live Aurora Dragon Egg GLB Loaded';
-    });
+      <div class="top-brand">
+        <div class="big">Terence OS</div>
+        <div class="small">Operating Systems</div>
+      </div>
 
-    viewer.addEventListener('error', () => {
-      statusText.textContent = 'GLB failed to load — check ./assets/dragon-egg.glb';
-    });
+      <div class="year-left">2026</div>
+      <div class="year-right">2026</div>
 
-    toggleRotate.addEventListener('click', () => {
-      rotating = !rotating;
+      <div class="side-left">
+        <div class="vertical">未来は今ここにある</div>
+      </div>
 
-      if (rotating) {
-        viewer.setAttribute('auto-rotate', '');
-        toggleRotate.textContent = 'Rotation On';
-        statusText.textContent = 'Auto rotation enabled';
-      } else {
-        viewer.removeAttribute('auto-rotate');
-        toggleRotate.textContent = 'Rotation Off';
-        statusText.textContent = 'Auto rotation disabled';
-      }
-    });
+      <div class="side-right">
+        <div class="vertical">Dragon // Character</div>
+      </div>
 
-    resetView.addEventListener('click', () => {
-      viewer.cameraOrbit = '0deg 74deg 3.4m';
-      viewer.fieldOfView = '26deg';
-      statusText.textContent = 'View reset';
-    });
+      <div class="side-icon one">🔥</div>
+      <div class="side-icon two">🐉</div>
 
-    enterGate.addEventListener('click', () => {
-      statusText.textContent = 'Entering ALEH Gate…';
-      window.location.href = 'https://aol83.github.io/auroralogisticalecoholdings/';
-    });
+      <header class="hero-title">
+        <div class="egg-title">Dragon Egg</div>
+        <div class="sub">Character</div>
+      </header>
 
-    viewer.addEventListener('click', () => {
-      statusText.textContent = 'Dragon Egg selected';
-    });
-  </script>
+      <div class="display-shell">
+        <div class="holo-glow"></div>
+
+        <model-viewer
+          id="dragonEgg"
+          src="./assets/dragon-egg.glb?v=live-card-v2-working-001"
+          alt="Dragon Egg live GLB"
+          auto-rotate
+          auto-rotate-delay="0"
+          rotation-per-second="18deg"
+          camera-controls
+          touch-action="pan-y"
+          interaction-prompt="auto"
+          shadow-intensity="0.65"
+          shadow-softness="0.8"
+          exposure="0.72"
+          environment-image="neutral"
+          camera-orbit="0deg 72deg 4.3m"
+          min-camera-orbit="auto auto 2.2m"
+          max-camera-orbit="auto auto 8m"
+          field-of-view="31deg"
+          loading="eager"
+          reveal="auto">
+        </model-viewer>
+
+        <div class="status-line" id="statusText">
+          Loading Real Aurora Dragon Egg GLB…
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stat-row">
+          <div class="icon-hex red">✊</div>
+          <div class="stat-label">Strength</div>
+          <div class="stat-slot red"></div>
+        </div>
+
+        <div class="stat-row">
+          <div class="icon-hex yellow">⌬</div>
+          <div class="stat-label">Intelligence</div>
+          <div class="stat-slot yellow"></div>
+        </div>
+
+        <div class="stat-row">
+          <div class="icon-hex pink">➤</div>
+          <div class="stat-label">Speed</div>
+          <div class="stat-slot pink"></div>
+        </div>
+
+        <div class="stat-row">
+          <div class="icon-hex blue">▣</div>
+          <div class="stat-label">Tech Level</div>
+          <div class="stat-slot blue"></div>
+        </div>
+
+        <div class="stat-row">
+          <div class="icon-hex green">🐉</div>
+          <div class="stat-label">Dragon Bond</div>
+          <div class="stat-slot green"></div>
+        </div>
+      </div>
+
+      <div class="next-gen">Next<br>Gen</div>
+
+      <div class="footer-note">
+        <span>Raw Power.</span> Future <span>Legend.</span>
+      </div>
+
+      <div class="button-bar">
+        <button class="enter" id="enterGate">Enter ALEH Gate</button>
+        <button id="toggleRotate">Rotation On</button>
+        <button id="resetView">Reset View</button>
+        <button id="lightButton">Lighting Neutral</button>
+        <button id="dimButton">Dim Render</button>
+        <button id="reloadButton">Reload GLB</button>
+        <a class="asset" href="./assets/dragon-egg.glb?v=live-card-v2-working-001" target="_blank" rel="noopener">Open GLB</a>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<script>
+const viewer = document.getElementById("dragonEgg");
+const statusText = document.getElementById("statusText");
+const toggleRotate = document.getElementById("toggleRotate");
+const resetView = document.getElementById("resetView");
+const enterGate = document.getElementById("enterGate");
+const lightButton = document.getElementById("lightButton");
+const dimButton = document.getElementById("dimButton");
+const reloadButton = document.getElementById("reloadButton");
+
+const GLB_BASE = "./assets/dragon-egg.glb";
+const GLB_VERSION = "live-card-v2-working-001";
+
+let rotating = true;
+let lightingMode = "neutral";
+let exposureMode = "normal";
+let reloadCount = 0;
+
+function currentModelUrl() {
+  return `${GLB_BASE}?v=${GLB_VERSION}-${reloadCount}`;
+}
+
+function setModelSource() {
+  viewer.setAttribute("src", currentModelUrl());
+}
+
+viewer.addEventListener("load", () => {
+  statusText.textContent = "Live Aurora Dragon Egg GLB Loaded";
+});
+
+viewer.addEventListener("progress", (event) => {
+  if (event.detail && typeof event.detail.totalProgress === "number") {
+    const percent = Math.round(event.detail.totalProgress * 100);
+    statusText.textContent = `Loading Real Aurora Dragon Egg GLB… ${percent}%`;
+  }
+});
+
+viewer.addEventListener("error", (event) => {
+  statusText.textContent = "GLB failed to load — check ./assets/dragon-egg.glb";
+  console.error("model-viewer GLB error:", event);
+});
+
+toggleRotate.addEventListener("click", () => {
+  rotating = !rotating;
+
+  if (rotating) {
+    viewer.setAttribute("auto-rotate", "");
+    toggleRotate.textContent = "Rotation On";
+    statusText.textContent = "Auto rotation enabled";
+  } else {
+    viewer.removeAttribute("auto-rotate");
+    toggleRotate.textContent = "Rotation Off";
+    statusText.textContent = "Auto rotation disabled";
+  }
+});
+
+resetView.addEventListener("click", () => {
+  viewer.cameraOrbit = "0deg 72deg 4.3m";
+  viewer.fieldOfView = "31deg";
+  statusText.textContent = "View reset";
+});
+
+lightButton.addEventListener("click", () => {
+  if (lightingMode === "neutral") {
+    lightingMode = "soft";
+    viewer.setAttribute("environment-image", "https://modelviewer.dev/shared-assets/environments/aircraft_workshop_01_1k.hdr");
+    viewer.removeAttribute("skybox-image");
+    viewer.setAttribute("exposure", exposureMode === "dim" ? "0.42" : "0.62");
+    lightButton.textContent = "Lighting Soft";
+    statusText.textContent = "Soft HDR lighting enabled";
+  } else {
+    lightingMode = "neutral";
+    viewer.setAttribute("environment-image", "neutral");
+    viewer.removeAttribute("skybox-image");
+    viewer.setAttribute("exposure", exposureMode === "dim" ? "0.48" : "0.72");
+    lightButton.textContent = "Lighting Neutral";
+    statusText.textContent = "Neutral lighting enabled";
+  }
+});
+
+dimButton.addEventListener("click", () => {
+  if (exposureMode === "normal") {
+    exposureMode = "dim";
+    viewer.setAttribute("exposure", lightingMode === "soft" ? "0.42" : "0.48");
+    dimButton.textContent = "Brighten";
+    statusText.textContent = "Render dimmed";
+  } else {
+    exposureMode = "normal";
+    viewer.setAttribute("exposure", lightingMode === "soft" ? "0.62" : "0.72");
+    dimButton.textContent = "Dim Render";
+    statusText.textContent = "Render brightness restored";
+  }
+});
+
+reloadButton.addEventListener("click", () => {
+  reloadCount += 1;
+  setModelSource();
+  statusText.textContent = "Reloading GLB with cache-bust token…";
+});
+
+enterGate.addEventListener("click", () => {
+  statusText.textContent = "ALEH Gate Active";
+});
+
+viewer.addEventListener("click", () => {
+  statusText.textContent = "Dragon Egg selected";
+});
+
+setModelSource();
+</script>
 </body>
 </html>
