@@ -586,29 +586,251 @@
     @keyframes marquee { to { transform:translateX(-50%); } }
 
     .footer {
-      margin-top:74px;
-      position:relative;
-      overflow:hidden;
-      border-top:1px solid rgba(255,255,255,0.12);
+      margin-top: 96px;
+      position: relative;
+      overflow: hidden;
+      border-top: 1px solid rgba(255,255,255,0.14);
       background:
-        radial-gradient(circle at 10% 0%, rgba(0,245,255,0.16), transparent 28%),
-        radial-gradient(circle at 90% 5%, rgba(255,43,214,0.14), transparent 30%),
-        #03030a;
+        radial-gradient(circle at 18% 18%, rgba(0,245,255,0.20), transparent 24%),
+        radial-gradient(circle at 84% 12%, rgba(255,43,214,0.18), transparent 28%),
+        radial-gradient(circle at 50% 100%, rgba(249,248,113,0.12), transparent 36%),
+        linear-gradient(180deg, #060614 0%, #03030a 70%, #010105 100%);
     }
-    .footer::before { content:""; position:absolute; left:0; right:0; top:0; height:1px; background:linear-gradient(90deg,transparent,var(--cyan),var(--pink),var(--yellow),transparent); }
-    .footer::after { content:""; position:absolute; inset:0; background-image:linear-gradient(rgba(0,245,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,43,214,0.035) 1px, transparent 1px); background-size:38px 38px; mask-image:linear-gradient(to top, black, transparent 76%); pointer-events:none; }
-    .footer-inner { position:relative; z-index:2; padding:58px 0 28px; }
-    .footer-top { display:grid; grid-template-columns:1fr; gap:26px; margin-bottom:34px; }
+
+    .footer::before {
+      content:"";
+      position:absolute;
+      left:0; right:0; top:0;
+      height:2px;
+      background:linear-gradient(90deg, transparent, var(--cyan), var(--pink), var(--yellow), var(--lime), transparent);
+      box-shadow: 0 0 24px rgba(0,245,255,0.55), 0 0 44px rgba(255,43,214,0.24);
+      animation: footerBeam 6s ease-in-out infinite;
+    }
+
+    .footer::after {
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background-image:
+        linear-gradient(rgba(0,245,255,0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,43,214,0.04) 1px, transparent 1px);
+      background-size:42px 42px;
+      mask-image:linear-gradient(to top, black, transparent 80%);
+      animation: footerGrid 22s linear infinite;
+    }
+
+    @keyframes footerBeam {
+      0%,100% { opacity: .62; filter: hue-rotate(0deg); }
+      50% { opacity: 1; filter: hue-rotate(36deg); }
+    }
+
+    @keyframes footerGrid {
+      to { background-position: 84px 42px, -42px 84px; }
+    }
+
+    .footer-inner {
+      position:relative;
+      z-index:2;
+      padding:76px 0 28px;
+    }
+
+    .footer-hero {
+      display:grid;
+      grid-template-columns:1fr;
+      gap:28px;
+      align-items:center;
+      margin-bottom:42px;
+    }
+
+    .footer-title {
+      margin:0;
+      font-size:clamp(2.3rem, 9vw, 5.9rem);
+      line-height:.88;
+      letter-spacing:-.075em;
+      max-width:850px;
+    }
+
+    .footer-title span {
+      background:linear-gradient(110deg, #fff, var(--cyan), var(--pink), var(--yellow));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+      text-shadow:none;
+    }
+
+    .footer-copy {
+      color:var(--muted);
+      font-size:1.02rem;
+      line-height:1.75;
+      max-width:680px;
+      margin:18px 0 0;
+    }
+
+    .orb-social-wrap {
+      position:relative;
+      min-height:360px;
+      border:1px solid rgba(0,245,255,0.18);
+      border-radius:36px;
+      background:
+        radial-gradient(circle at 50% 48%, rgba(0,245,255,.13), transparent 28%),
+        radial-gradient(circle at 20% 20%, rgba(255,43,214,.12), transparent 28%),
+        rgba(255,255,255,.035);
+      overflow:hidden;
+      box-shadow:0 34px 100px rgba(0,0,0,.38), inset 0 0 60px rgba(0,245,255,.045);
+      perspective: 900px;
+    }
+
+    .orb-social-wrap::before,
+    .orb-social-wrap::after {
+      content:"";
+      position:absolute;
+      border-radius:50%;
+      border:1px solid rgba(0,245,255,.22);
+      pointer-events:none;
+    }
+
+    .orb-social-wrap::before { inset:34px; animation: orbit 28s linear infinite; }
+    .orb-social-wrap::after { inset:74px 46px; border-color:rgba(255,43,214,.22); border-style:dashed; animation: orbit 42s linear reverse infinite; }
+
+    .social-orbits {
+      position:relative;
+      z-index:3;
+      min-height:360px;
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:center;
+      gap:14px;
+      padding:34px;
+      transform-style: preserve-3d;
+    }
+
+    .social-orb {
+      --orb: var(--cyan);
+      width:76px;
+      height:76px;
+      border-radius:50%;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:3px;
+      color:#050510;
+      font-weight:1000;
+      font-size:.78rem;
+      letter-spacing:-.03em;
+      position:relative;
+      border:1px solid rgba(255,255,255,.32);
+      background:
+        radial-gradient(circle at 30% 24%, rgba(255,255,255,.92), rgba(255,255,255,.25) 16%, transparent 25%),
+        radial-gradient(circle at 62% 72%, rgba(0,0,0,.34), transparent 32%),
+        linear-gradient(135deg, color-mix(in srgb, var(--orb), white 32%), var(--orb));
+      box-shadow:
+        0 0 24px color-mix(in srgb, var(--orb), transparent 34%),
+        0 0 54px color-mix(in srgb, var(--orb), transparent 70%),
+        inset -12px -16px 28px rgba(0,0,0,.30),
+        inset 10px 10px 20px rgba(255,255,255,.22);
+      transform:translateZ(0) scale(1);
+      transition: transform 240ms cubic-bezier(.2,.9,.2,1.35), box-shadow 240ms ease, filter 240ms ease;
+      isolation:isolate;
+    }
+
+    .social-orb::before {
+      content:"";
+      position:absolute;
+      inset:-8px;
+      border-radius:50%;
+      border:1px solid color-mix(in srgb, var(--orb), transparent 46%);
+      opacity:.0;
+      transform:scale(.78);
+      transition:220ms ease;
+      box-shadow:0 0 24px color-mix(in srgb, var(--orb), transparent 52%);
+    }
+
+    .social-orb::after {
+      content:"";
+      position:absolute;
+      width:108%;
+      height:26%;
+      bottom:-14%;
+      border-radius:50%;
+      background:radial-gradient(ellipse, color-mix(in srgb, var(--orb), transparent 70%), transparent 68%);
+      filter:blur(7px);
+      transform:scaleX(.82);
+      opacity:.62;
+      z-index:-1;
+      transition:220ms ease;
+    }
+
+    .social-orb:hover,
+    .social-orb:focus-visible {
+      transform:translateY(-10px) translateZ(44px) scale(1.22) rotateX(8deg) rotateY(-8deg);
+      filter:saturate(1.25) brightness(1.12);
+      box-shadow:
+        0 0 34px color-mix(in srgb, var(--orb), transparent 18%),
+        0 0 96px color-mix(in srgb, var(--orb), transparent 54%),
+        0 26px 54px rgba(0,0,0,.38),
+        inset -12px -16px 28px rgba(0,0,0,.30),
+        inset 10px 10px 22px rgba(255,255,255,.28);
+      z-index:8;
+    }
+
+    .social-orb:hover::before,
+    .social-orb:focus-visible::before { opacity:1; transform:scale(1.16); }
+    .social-orb:hover::after,
+    .social-orb:focus-visible::after { opacity:1; transform:scaleX(1.12); }
+
+    .social-orb small {
+      color:rgba(5,5,16,.74);
+      font-size:.54rem;
+      font-family:var(--mono);
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      line-height:1;
+    }
+
+    .orb-linkedin { --orb:#0a66c2; }
+    .orb-youtube { --orb:#ff0033; }
+    .orb-github { --orb:#d8e2ff; }
+    .orb-substack { --orb:#ff6719; }
+    .orb-x { --orb:#ffffff; }
+    .orb-instagram { --orb:#ff2bd6; }
+    .orb-tiktok { --orb:#00f5ff; }
+    .orb-facebook { --orb:#1877f2; }
+    .orb-discord { --orb:#5865f2; }
+    .orb-twitch { --orb:#9146ff; }
+    .orb-reddit { --orb:#ff4500; }
+    .orb-medium { --orb:#b6ff5a; }
+    .orb-threads { --orb:#ffffff; }
+    .orb-email { --orb:#f9f871; }
+
+    .footer-main-grid {
+      display:grid;
+      grid-template-columns:1fr;
+      gap:26px;
+      padding:36px 0 32px;
+      border-top:1px solid rgba(255,255,255,.11);
+      border-bottom:1px solid rgba(255,255,255,.11);
+    }
+
     .footer-logo { display:flex; align-items:center; gap:12px; margin-bottom:18px; }
-    .footer p { color:var(--muted); margin:0; line-height:1.72; max-width:580px; }
+    .footer p { color:var(--muted); margin:0; line-height:1.72; max-width:620px; }
     .footer h4 { margin:0 0 14px; color:#eaf7ff; font-size:.88rem; text-transform:uppercase; letter-spacing:.12em; font-family:var(--mono); }
-    .footer a { display:block; color:var(--muted); margin:10px 0; transition:160ms ease; }
-    .footer a:hover { color:var(--cyan); transform:translateX(4px); text-shadow:0 0 14px rgba(0,245,255,0.3); }
+    .footer a:not(.social-orb) { display:block; color:var(--muted); margin:10px 0; transition:160ms ease; }
+    .footer a:not(.social-orb):hover { color:var(--cyan); transform:translateX(4px); text-shadow:0 0 14px rgba(0,245,255,0.3); }
+
     .newsletter { display:flex; gap:8px; margin-top:18px; }
     .newsletter input { min-width:0; flex:1; border:1px solid var(--line); background:rgba(255,255,255,0.05); color:var(--ink); border-radius:999px; padding:12px 14px; outline:none; }
-    .socials { display:flex; gap:10px; margin-top:16px; }
-    .socials a { width:42px; height:42px; display:grid; place-items:center; margin:0; border:1px solid var(--line); border-radius:15px; background:rgba(255,255,255,0.04); color:var(--ink); font-family:var(--mono); font-size:.82rem; }
-    .footer-bottom { display:flex; flex-direction:column; gap:12px; border-top:1px solid rgba(255,255,255,0.10); padding-top:22px; color:var(--dim); font-size:.88rem; }
+
+    .footer-bottom {
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      padding-top:22px;
+      color:var(--dim);
+      font-size:.88rem;
+    }
     .footer-bottom strong { color:var(--cyan); font-weight:800; }
 
     @media (min-width: 640px) {
@@ -767,18 +989,46 @@ Status: static site ready for deployment</div></article><form class="form" onsub
 
   <footer class="footer">
     <div class="shell footer-inner">
-      <div class="footer-top">
+      <div class="footer-hero">
+        <div>
+          <div class="eyebrow"><span class="beacon"></span> Aurora network footer</div>
+          <h2 class="footer-title"><span>Every link is a live node.</span></h2>
+          <p class="footer-copy">A fully loaded footer for company navigation, social routing, media channels, research archives, newsletter capture, and the ongoing Substack embed loophole hunt. Because yes, the toaster footer has been taken outside and spoken to.</p>
+        </div>
+
+        <div class="orb-social-wrap" aria-label="Interactive social media globe links">
+          <div class="social-orbits">
+            <a class="social-orb orb-linkedin" href="#" aria-label="LinkedIn"><span>LinkedIn</span><small>Business</small></a>
+            <a class="social-orb orb-youtube" href="#" aria-label="YouTube"><span>YouTube</span><small>Video</small></a>
+            <a class="social-orb orb-github" href="#" aria-label="GitHub"><span>GitHub</span><small>Code</small></a>
+            <a class="social-orb orb-substack" href="#" aria-label="Substack"><span>Substack</span><small>Essays</small></a>
+            <a class="social-orb orb-x" href="#" aria-label="X"><span>X</span><small>Posts</small></a>
+            <a class="social-orb orb-instagram" href="#" aria-label="Instagram"><span>Instagram</span><small>Visual</small></a>
+            <a class="social-orb orb-tiktok" href="#" aria-label="TikTok"><span>TikTok</span><small>Shorts</small></a>
+            <a class="social-orb orb-facebook" href="#" aria-label="Facebook"><span>Facebook</span><small>Social</small></a>
+            <a class="social-orb orb-discord" href="#" aria-label="Discord"><span>Discord</span><small>Community</small></a>
+            <a class="social-orb orb-twitch" href="#" aria-label="Twitch"><span>Twitch</span><small>Live</small></a>
+            <a class="social-orb orb-reddit" href="#" aria-label="Reddit"><span>Reddit</span><small>Forum</small></a>
+            <a class="social-orb orb-medium" href="#" aria-label="Medium"><span>Medium</span><small>Articles</small></a>
+            <a class="social-orb orb-threads" href="#" aria-label="Threads"><span>Threads</span><small>Meta</small></a>
+            <a class="social-orb orb-email" href="mailto:hello@example.com" aria-label="Email"><span>Email</span><small>Contact</small></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-main-grid">
         <div>
           <div class="footer-logo"><span class="brand-mark" aria-hidden="true"></span><span class="brand-text"><strong>Aurora Logistical Eco Holdings</strong><span>Flagship static systems</span></span></div>
           <p>Cyberpunk software infrastructure for digital books, research systems, video libraries, logistics intelligence, and boundary-aware operational design.</p>
           <form class="newsletter" onsubmit="event.preventDefault(); alert('Newsletter placeholder. Connect to Substack or a mailing service.');"><input type="email" placeholder="Email for updates" aria-label="Email for updates"><button class="btn primary" type="submit">Join</button></form>
-          <div class="socials"><a href="#" aria-label="GitHub">GH</a><a href="#" aria-label="Substack">SS</a><a href="#" aria-label="YouTube">YT</a><a href="#" aria-label="X">X</a></div>
         </div>
-        <div><h4>Pages</h4><a href="#home" data-route="home">Home</a><a href="#software" data-route="software">Software</a><a href="#solutions" data-route="solutions">Solutions</a><a href="#labs" data-route="labs">Labs</a></div>
-        <div><h4>Research</h4><a href="#research" data-route="research">Zero-State</a><a href="#library" data-route="library">Library</a><a href="#video" data-route="video">Video</a><a href="#cases" data-route="cases">Case Studies</a></div>
-        <div><h4>Company</h4><a href="#about" data-route="about">About</a><a href="#contact" data-route="contact">Contact</a><a href="mailto:hello@example.com">hello@example.com</a><a href="#">Privacy / Terms</a></div>
+        <div><h4>Company</h4><a href="#about" data-route="about">About</a><a href="#contact" data-route="contact">Contact</a><a href="#cases" data-route="cases">Case Studies</a><a href="#">Privacy / Terms</a></div>
+        <div><h4>Build</h4><a href="#software" data-route="software">Software</a><a href="#solutions" data-route="solutions">Solutions</a><a href="#labs" data-route="labs">Labs</a><a href="#video" data-route="video">Video Library</a></div>
+        <div><h4>Research</h4><a href="#research" data-route="research">Zero-State Principle</a><a href="#library" data-route="library">Reports</a><a href="#library" data-route="library">Digital Books</a><a href="#library" data-route="library">Archive</a></div>
+        <div><h4>Direct</h4><a href="mailto:hello@example.com">hello@example.com</a><a href="#">WaterFallsLT Substack</a><a href="#">GitHub Repository</a><a href="#">YouTube Channel</a></div>
       </div>
-      <div class="footer-bottom"><span>© <span id="year"></span> Aurora Logistical Eco Holdings. All rights reserved.</span><span><strong>Embed test:</strong> if Substack renders this live, the side door exists. Try not to cackle.</span></div>
+
+      <div class="footer-bottom"><span>© <span id="year"></span> Aurora Logistical Eco Holdings. All rights reserved.</span><span><strong>Embed test:</strong> if Substack renders this live, the side door exists. Try not to cackle too loudly in public.</span></div>
     </div>
   </footer>
 
