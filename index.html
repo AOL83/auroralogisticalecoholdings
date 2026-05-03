@@ -98,6 +98,97 @@
       to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
     }
 
+    .launch-gate {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      display: grid;
+      place-items: center;
+      padding: 22px;
+      background:
+        radial-gradient(circle at 22% 18%, rgba(0,245,255,.18), transparent 30%),
+        radial-gradient(circle at 82% 20%, rgba(255,43,214,.18), transparent 34%),
+        radial-gradient(circle at 50% 100%, rgba(249,248,113,.10), transparent 36%),
+        rgba(3,3,10,.94);
+      backdrop-filter: blur(18px) saturate(140%);
+      -webkit-backdrop-filter: blur(18px) saturate(140%);
+      transition: opacity 420ms ease, transform 420ms ease, visibility 420ms ease;
+    }
+
+    .launch-gate.hidden {
+      opacity: 0;
+      transform: scale(1.018);
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .launch-panel {
+      width: min(760px, 100%);
+      border: 1px solid rgba(0,245,255,.28);
+      border-radius: 34px;
+      padding: clamp(24px, 5vw, 44px);
+      background:
+        radial-gradient(circle at 18% 0%, rgba(0,245,255,.18), transparent 28%),
+        radial-gradient(circle at 92% 10%, rgba(255,43,214,.16), transparent 30%),
+        rgba(8,10,28,.82);
+      box-shadow: 0 44px 140px rgba(0,0,0,.58), var(--shadow-cyan);
+      position: relative;
+      overflow: hidden;
+      text-align: left;
+    }
+
+    .launch-panel::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 26px;
+      pointer-events: none;
+    }
+
+    .launch-panel::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(110deg, transparent, rgba(0,245,255,.10), transparent);
+      transform: translateX(-130%);
+      animation: launchScan 5.6s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes launchScan {
+      0%, 55% { transform: translateX(-130%); }
+      78%, 100% { transform: translateX(130%); }
+    }
+
+    .launch-panel h2 {
+      margin: 0;
+      font-size: clamp(2rem, 8vw, 5.2rem);
+      line-height: .88;
+      letter-spacing: -.07em;
+    }
+
+    .launch-panel p {
+      margin: 18px 0 0;
+      color: var(--muted);
+      max-width: 620px;
+    }
+
+    .launch-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 26px;
+    }
+
+    .launch-mini {
+      margin-top: 20px;
+      font-family: var(--mono);
+      color: var(--dim);
+      font-size: .82rem;
+      line-height: 1.6;
+    }
+
     .aurora-cursor {
       position: fixed;
       width: 360px;
@@ -897,6 +988,20 @@
   </style>
 </head>
 <body>
+  <div class="launch-gate" id="launchGate" role="dialog" aria-modal="true" aria-labelledby="launchTitle">
+    <div class="launch-panel">
+      <div class="eyebrow"><span class="beacon"></span> Runtime contained inside index.html</div>
+      <h2 id="launchTitle"><span class="gradient">Launch Aurora System</span></h2>
+      <p>This is the live GitHub Pages runtime. Substack does not execute the site inside the post; it opens this HTML file, and this file runs the interface. The missing run function lives here. Finally, a button that actually has a job.</p>
+      <div class="launch-actions">
+        <button class="btn primary" type="button" id="runAurora">Run Aurora System</button>
+        <a class="btn yellow" href="#library" data-route="library" id="openArchiveFromGate">Open archive</a>
+        <button class="btn" type="button" id="skipGate">Skip intro</button>
+      </div>
+      <div class="launch-mini">status: static HTML loaded · css active · javascript waiting for click · substack launch mode compatible</div>
+    </div>
+  </div>
+
   <div class="aurora-cursor" id="cursorGlow" aria-hidden="true"></div>
 
   <header class="topbar">
@@ -1102,6 +1207,27 @@ Status: static site ready for deployment</div></article><form class="form" onsub
   </footer>
 
   <script>
+    const launchGate = document.getElementById('launchGate');
+    const runAurora = document.getElementById('runAurora');
+    const skipGate = document.getElementById('skipGate');
+    const openArchiveFromGate = document.getElementById('openArchiveFromGate');
+
+    function closeLaunchGate() {
+      launchGate.classList.add('hidden');
+      document.body.classList.remove('launch-locked');
+      try { sessionStorage.setItem('auroraLaunchSeen', 'true'); } catch (error) {}
+    }
+
+    runAurora.addEventListener('click', closeLaunchGate);
+    skipGate.addEventListener('click', closeLaunchGate);
+    openArchiveFromGate.addEventListener('click', closeLaunchGate);
+
+    try {
+      const forceLaunch = new URLSearchParams(location.search).get('launch') === 'true';
+      const seen = sessionStorage.getItem('auroraLaunchSeen') === 'true';
+      if (seen && !forceLaunch) closeLaunchGate();
+    } catch (error) {}
+
     const routes = Array.from(document.querySelectorAll('.page')).map(page => page.id);
     const hamburger = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('mobileMenu');
