@@ -1026,7 +1026,7 @@
         font-size:.54rem;
       }
     }
-    /* === Bottom card tidy pass === */
+    /* === Bottom card tidy pass + transparent stat boxes === */
 
 .circuit-bars {
   left: 44px;
@@ -1067,9 +1067,30 @@
   font-size: .95rem;
 }
 
+/* Transparent stat label boxes */
 .stat-label {
   font-size: clamp(.9rem, 1.55vw, 1.16rem);
   padding: 0 16px;
+  background: transparent;
+  box-shadow: none;
+  border-color: rgba(255,255,255,.08);
+}
+
+/* Remove moving shine overlay from label */
+.stat-label::after {
+  display: none;
+}
+
+/* Transparent stat value boxes */
+.stat-slot {
+  background: transparent;
+  box-shadow: none;
+}
+
+/* Optional: make icon boxes transparent too */
+.icon-hex {
+  background: transparent;
+  box-shadow: 0 0 14px currentColor;
 }
 
 .footer-note {
@@ -1084,10 +1105,7 @@
   opacity: .92;
 }
 
-.side-left {
-  bottom: 210px;
-}
-
+.side-left,
 .side-right {
   bottom: 210px;
 }
@@ -1098,6 +1116,20 @@
 
 .utility-dock {
   padding-top: 8px;
+}
+
+/* Remove main card outside black shadow */
+.card {
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.08),
+    inset 0 0 90px rgba(255,255,255,.02);
+}
+
+/* Optional: make display shell cleaner too */
+.display-shell {
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.05),
+    inset 0 0 30px rgba(255,255,255,.02);
 }
 
 @media (max-width: 760px) {
