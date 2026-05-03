@@ -17,29 +17,63 @@ jobs:
       - name: Create assets folder
         run: mkdir -p assets
 
-      - name: Download coloured GLB from GitHub Release
+      - name: Find newest GLB release asset
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
+          echo "Finding newest .glb asset from release tag v0.1-assets..."
+
+          ASSET_URL=$(gh api \
+            repos/AOL83/auroralogisticalecoholdings/releases/tags/v0.1-assets \
+            --jq '.assets | map(select(.name | endswith(".glb"))) | sort_by(.created_at) | last | .browser_download_url')
+
+          ASSET_NAME=$(gh api \
+            repos/AOL83/auroralogisticalecoholdings/releases/tags/v0.1-assets \
+            --jq '.assets | map(select(.name | endswith(".glb"))) | sort_by(.created_at) | last | .name')
+
+          if [ -z "$ASSET_URL" ] || [ "$ASSET_URL" = "null" ]; then
+            echo "No .glb release asset found."
+            exit 1
+          fi
+
+          echo "Newest GLB asset:"
+          echo "$ASSET_NAME"
+          echo "$ASSET_URL"
+
+          echo "$ASSET_URL" > glb-url.txt
+          echo "$ASSET_NAME" > glb-name.txt
+
+      - name: Download newest GLB into live assets
+        run: |
+          ASSET_URL=$(cat glb-url.txt)
+          ASSET_NAME=$(cat glb-name.txt)
+
+          echo "Downloading: $ASSET_NAME"
+
           curl -fL \
             --retry 3 \
             --retry-delay 5 \
             -o assets/dragon-egg.glb \
-            "https://github.com/AOL83/auroralogisticalecoholdings/releases/download/v0.1-assets/dragon-egg-coloured.glb"
+            "$ASSET_URL"
 
-      - name: Confirm GLB file
+      - name: Confirm imported GLB
         run: |
+          echo "Imported GLB:"
           ls -lh assets/dragon-egg.glb
           file assets/dragon-egg.glb || true
+          sha256sum assets/dragon-egg.glb > assets/dragon-egg.sha256
+          cat assets/dragon-egg.sha256
 
-      - name: Commit coloured GLB into repository
+      - name: Commit imported GLB into repository
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
 
-          git add assets/dragon-egg.glb
+          git add assets/dragon-egg.glb assets/dragon-egg.sha256
 
           if git diff --cached --quiet; then
             echo "No changes to commit."
           else
-            git commit -m "Import coloured dragon egg GLB asset"
+            git commit -m "Import latest dragon egg GLB asset"
             git push
           fi
