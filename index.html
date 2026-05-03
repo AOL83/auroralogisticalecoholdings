@@ -781,6 +781,30 @@
     .social-orb:hover::after,
     .social-orb:focus-visible::after { opacity:1; transform:scaleX(1.12); }
 
+    .social-logo {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+      display: block;
+      filter: drop-shadow(0 1px 0 rgba(255,255,255,.22));
+      transition: transform 220ms ease, filter 220ms ease;
+      z-index: 2;
+    }
+
+    .social-orb:hover .social-logo,
+    .social-orb:focus-visible .social-logo {
+      transform: scale(1.16) rotate(-5deg);
+      filter: drop-shadow(0 0 10px rgba(255,255,255,.72));
+    }
+
+    .social-orb span {
+      max-width: 64px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      z-index: 2;
+    }
+
     .social-orb small {
       color:rgba(5,5,16,.74);
       font-size:.54rem;
@@ -788,6 +812,7 @@
       letter-spacing:.06em;
       text-transform:uppercase;
       line-height:1;
+      z-index: 2;
     }
 
     .orb-linkedin { --orb:#0a66c2; }
@@ -998,20 +1023,62 @@ Status: static site ready for deployment</div></article><form class="form" onsub
 
         <div class="orb-social-wrap" aria-label="Interactive social media globe links">
           <div class="social-orbits">
-            <a class="social-orb orb-linkedin" href="#" aria-label="LinkedIn"><span>LinkedIn</span><small>Business</small></a>
-            <a class="social-orb orb-youtube" href="#" aria-label="YouTube"><span>YouTube</span><small>Video</small></a>
-            <a class="social-orb orb-github" href="#" aria-label="GitHub"><span>GitHub</span><small>Code</small></a>
-            <a class="social-orb orb-substack" href="#" aria-label="Substack"><span>Substack</span><small>Essays</small></a>
-            <a class="social-orb orb-x" href="#" aria-label="X"><span>X</span><small>Posts</small></a>
-            <a class="social-orb orb-instagram" href="#" aria-label="Instagram"><span>Instagram</span><small>Visual</small></a>
-            <a class="social-orb orb-tiktok" href="#" aria-label="TikTok"><span>TikTok</span><small>Shorts</small></a>
-            <a class="social-orb orb-facebook" href="#" aria-label="Facebook"><span>Facebook</span><small>Social</small></a>
-            <a class="social-orb orb-discord" href="#" aria-label="Discord"><span>Discord</span><small>Community</small></a>
-            <a class="social-orb orb-twitch" href="#" aria-label="Twitch"><span>Twitch</span><small>Live</small></a>
-            <a class="social-orb orb-reddit" href="#" aria-label="Reddit"><span>Reddit</span><small>Forum</small></a>
-            <a class="social-orb orb-medium" href="#" aria-label="Medium"><span>Medium</span><small>Articles</small></a>
-            <a class="social-orb orb-threads" href="#" aria-label="Threads"><span>Threads</span><small>Meta</small></a>
-            <a class="social-orb orb-email" href="mailto:hello@example.com" aria-label="Email"><span>Email</span><small>Contact</small></a>
+            <a class="social-orb orb-linkedin" href="#" aria-label="LinkedIn">
+              <img class="social-logo" src="https://cdn.simpleicons.org/linkedin/050510" alt="LinkedIn logo" loading="lazy">
+              <span>LinkedIn</span><small>Business</small>
+            </a>
+            <a class="social-orb orb-youtube" href="#" aria-label="YouTube">
+              <img class="social-logo" src="https://cdn.simpleicons.org/youtube/050510" alt="YouTube logo" loading="lazy">
+              <span>YouTube</span><small>Video</small>
+            </a>
+            <a class="social-orb orb-github" href="#" aria-label="GitHub">
+              <img class="social-logo" src="https://cdn.simpleicons.org/github/050510" alt="GitHub logo" loading="lazy">
+              <span>GitHub</span><small>Code</small>
+            </a>
+            <a class="social-orb orb-substack" href="#" aria-label="Substack">
+              <img class="social-logo" src="https://cdn.simpleicons.org/substack/050510" alt="Substack logo" loading="lazy">
+              <span>Substack</span><small>Essays</small>
+            </a>
+            <a class="social-orb orb-x" href="#" aria-label="X">
+              <img class="social-logo" src="https://cdn.simpleicons.org/x/050510" alt="X logo" loading="lazy">
+              <span>X</span><small>Posts</small>
+            </a>
+            <a class="social-orb orb-instagram" href="#" aria-label="Instagram">
+              <img class="social-logo" src="https://cdn.simpleicons.org/instagram/050510" alt="Instagram logo" loading="lazy">
+              <span>Instagram</span><small>Visual</small>
+            </a>
+            <a class="social-orb orb-tiktok" href="#" aria-label="TikTok">
+              <img class="social-logo" src="https://cdn.simpleicons.org/tiktok/050510" alt="TikTok logo" loading="lazy">
+              <span>TikTok</span><small>Shorts</small>
+            </a>
+            <a class="social-orb orb-facebook" href="#" aria-label="Facebook">
+              <img class="social-logo" src="https://cdn.simpleicons.org/facebook/050510" alt="Facebook logo" loading="lazy">
+              <span>Facebook</span><small>Social</small>
+            </a>
+            <a class="social-orb orb-discord" href="#" aria-label="Discord">
+              <img class="social-logo" src="https://cdn.simpleicons.org/discord/050510" alt="Discord logo" loading="lazy">
+              <span>Discord</span><small>Community</small>
+            </a>
+            <a class="social-orb orb-twitch" href="#" aria-label="Twitch">
+              <img class="social-logo" src="https://cdn.simpleicons.org/twitch/050510" alt="Twitch logo" loading="lazy">
+              <span>Twitch</span><small>Live</small>
+            </a>
+            <a class="social-orb orb-reddit" href="#" aria-label="Reddit">
+              <img class="social-logo" src="https://cdn.simpleicons.org/reddit/050510" alt="Reddit logo" loading="lazy">
+              <span>Reddit</span><small>Forum</small>
+            </a>
+            <a class="social-orb orb-medium" href="#" aria-label="Medium">
+              <img class="social-logo" src="https://cdn.simpleicons.org/medium/050510" alt="Medium logo" loading="lazy">
+              <span>Medium</span><small>Articles</small>
+            </a>
+            <a class="social-orb orb-threads" href="#" aria-label="Threads">
+              <img class="social-logo" src="https://cdn.simpleicons.org/threads/050510" alt="Threads logo" loading="lazy">
+              <span>Threads</span><small>Meta</small>
+            </a>
+            <a class="social-orb orb-email" href="mailto:hello@example.com" aria-label="Email">
+              <img class="social-logo" src="https://cdn.simpleicons.org/gmail/050510" alt="Email logo" loading="lazy">
+              <span>Email</span><small>Contact</small>
+            </a>
           </div>
         </div>
       </div>
