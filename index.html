@@ -138,15 +138,6 @@ h1 {
   overflow: hidden;
 }
 
-.gate-panel::before {
-  content: "";
-  position: absolute;
-  inset: 12px;
-  border-radius: 24px;
-  border: 1px solid rgba(255,255,255,.08);
-  pointer-events: none;
-}
-
 .stage-wrap {
   position: relative;
   width: 100%;
@@ -260,11 +251,6 @@ button.primary {
   box-shadow: 0 0 20px rgba(124,255,0,.16);
 }
 
-button.danger {
-  border-color: rgba(255,49,93,.62);
-  color: #ffe5ec;
-}
-
 .info-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -375,14 +361,14 @@ button.danger {
     </div>
 
     <h1>DRAGON EGG</h1>
-    <div class="subtitle">Real Meshy GLB Runtime • No Static Substitute</div>
+    <div class="subtitle">Real Meshy GLB Runtime • Same-Site Model Source</div>
   </header>
 
   <section class="gate-panel" aria-label="ALEH Dragon Egg Gate">
     <div class="stage-wrap" id="stageWrap">
       <model-viewer
         id="dragonEgg"
-        src="https://github.com/AOL83/auroralogisticalecoholdings/releases/download/v0.1-assets/Meshy_AI_Neon_Scarab_Egg_0502151603_generate.1.glb"
+        src="./assets/dragon-egg.glb"
         alt="Aurora Logistical Eco Holdings Dragon Egg GLB"
         auto-rotate
         auto-rotate-delay="0"
@@ -402,7 +388,7 @@ button.danger {
       </model-viewer>
 
       <div class="status" id="statusText">
-        Loading real Aurora Dragon Egg GLB runtime…
+        Loading real Aurora Dragon Egg GLB from same-site ALEH assets…
       </div>
     </div>
 
@@ -412,14 +398,14 @@ button.danger {
       <button class="primary" id="enterButton">Enter ALEH Gate</button>
       <button id="rotateButton">Rotation: On</button>
       <button id="resetButton">Reset View</button>
-      <a class="button" href="https://github.com/AOL83/auroralogisticalecoholdings/releases/tag/v0.1-assets" target="_blank" rel="noopener">Runtime Asset</a>
+      <a class="button" href="./assets/dragon-egg.glb" target="_blank" rel="noopener">Open GLB Asset</a>
     </div>
   </section>
 
   <section class="info-grid" id="siteContent">
     <article class="info-card">
       <h2>Runtime Source</h2>
-      <p>The egg is loaded from the confirmed GitHub Release GLB asset, not from a static image.</p>
+      <p>The egg is loaded from the same GitHub Pages site as a real GLB file.</p>
     </article>
 
     <article class="info-card">
@@ -464,7 +450,7 @@ viewer.addEventListener("error", (event) => {
   statusText.textContent = "Dragon Egg GLB failed to load.";
   errorBox.style.display = "block";
   errorBox.textContent =
-    "The GLB did not render. The most likely cause is GitHub Release asset CORS or model-viewer fetch restrictions. The asset URL is hardcoded correctly, but the browser may refuse to load it directly from releases/download.";
+    "The page is looking for ./assets/dragon-egg.glb. Confirm the GLB file exists at auroralogisticalecoholdings/assets/dragon-egg.glb and is published through GitHub Pages.";
   console.error("model-viewer GLB error:", event);
 });
 
