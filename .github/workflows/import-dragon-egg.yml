@@ -17,20 +17,20 @@ jobs:
       - name: Create assets folder
         run: mkdir -p assets
 
-      - name: Download GLB from GitHub Release
+      - name: Download coloured GLB from GitHub Release
         run: |
           curl -fL \
             --retry 3 \
             --retry-delay 5 \
             -o assets/dragon-egg.glb \
-            "https://github.com/AOL83/auroralogisticalecoholdings/releases/download/v0.1-assets/Meshy_AI_Neon_Scarab_Egg_0502151603_generate.1.glb"
+            "https://github.com/AOL83/auroralogisticalecoholdings/releases/download/v0.1-assets/dragon-egg-coloured.glb"
 
       - name: Confirm GLB file
         run: |
           ls -lh assets/dragon-egg.glb
           file assets/dragon-egg.glb || true
 
-      - name: Commit GLB into repository
+      - name: Commit coloured GLB into repository
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
@@ -40,6 +40,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes to commit."
           else
-            git commit -m "Import dragon egg GLB asset"
+            git commit -m "Import coloured dragon egg GLB asset"
             git push
           fi
