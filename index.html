@@ -29,13 +29,17 @@
   padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   min-height: 100vh;
   overflow-x: hidden;
   background:
-    radial-gradient(circle at 50% 28%, rgba(0,245,255,.14), transparent 28%),
-    radial-gradient(circle at 22% 70%, rgba(255,43,214,.12), transparent 34%),
-    radial-gradient(circle at 78% 70%, rgba(124,255,0,.10), transparent 32%),
+    radial-gradient(circle at 50% 28%, rgba(0,245,255,.13), transparent 28%),
+    radial-gradient(circle at 22% 70%, rgba(255,43,214,.11), transparent 34%),
+    radial-gradient(circle at 78% 70%, rgba(124,255,0,.09), transparent 32%),
     var(--bg);
   color: var(--text);
   font-family: var(--ui);
@@ -58,8 +62,8 @@ body {
   pointer-events: none;
   background: repeating-linear-gradient(
     to bottom,
-    rgba(255,255,255,.025) 0,
-    rgba(255,255,255,.025) 1px,
+    rgba(255,255,255,.018) 0,
+    rgba(255,255,255,.018) 1px,
     transparent 2px,
     transparent 5px
   );
@@ -138,19 +142,29 @@ h1 {
   overflow: hidden;
 }
 
+.gate-panel::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border-radius: 24px;
+  border: 1px solid rgba(255,255,255,.08);
+  pointer-events: none;
+}
+
 .stage-wrap {
   position: relative;
   width: 100%;
-  height: min(72vh, 720px);
-  min-height: 520px;
+  height: min(74vh, 760px);
+  min-height: 560px;
   border-radius: 26px;
   overflow: hidden;
   border: 1px solid rgba(0,245,255,.28);
   background:
-    radial-gradient(circle at 50% 48%, rgba(0,245,255,.22), transparent 28%),
-    radial-gradient(circle at 50% 70%, rgba(255,43,214,.16), transparent 38%),
-    radial-gradient(circle at 50% 50%, rgba(124,255,0,.10), transparent 44%),
-    rgba(0,0,0,.50);
+    radial-gradient(circle at 50% 44%, rgba(255,230,0,.08), transparent 20%),
+    radial-gradient(circle at 42% 55%, rgba(255,43,214,.12), transparent 34%),
+    radial-gradient(circle at 58% 58%, rgba(0,245,255,.13), transparent 36%),
+    radial-gradient(circle at 50% 72%, rgba(124,255,0,.08), transparent 44%),
+    rgba(0,0,0,.62);
 }
 
 .stage-wrap::before {
@@ -158,10 +172,10 @@ h1 {
   position: absolute;
   inset: 26px;
   border-radius: 50%;
-  border: 1px solid rgba(0,245,255,.24);
+  border: 1px solid rgba(0,245,255,.20);
   box-shadow:
-    0 0 40px rgba(0,245,255,.16),
-    inset 0 0 40px rgba(255,43,214,.08);
+    0 0 40px rgba(0,245,255,.12),
+    inset 0 0 40px rgba(255,43,214,.06);
   animation: ringPulse 3.6s ease-in-out infinite;
   pointer-events: none;
   z-index: 2;
@@ -174,7 +188,7 @@ h1 {
   right: 8%;
   top: 0;
   height: 45px;
-  background: linear-gradient(to bottom, rgba(0,245,255,.16), transparent);
+  background: linear-gradient(to bottom, rgba(0,245,255,.10), transparent);
   animation: scan 4s ease-in-out infinite;
   pointer-events: none;
   z-index: 3;
@@ -194,17 +208,21 @@ model-viewer:active {
   cursor: grabbing;
 }
 
+model-viewer::part(default-progress-bar) {
+  background-color: var(--cyan);
+}
+
 .status {
   position: absolute;
   left: 50%;
   bottom: 22px;
   transform: translateX(-50%);
-  width: min(820px, calc(100% - 40px));
+  width: min(900px, calc(100% - 40px));
   text-align: center;
   font-family: var(--mono);
   font-size: .78rem;
   letter-spacing: .12em;
-  color: rgba(232,251,255,.90);
+  color: rgba(232,251,255,.92);
   background: rgba(0,0,0,.62);
   border: 1px solid rgba(0,245,255,.28);
   border-radius: 999px;
@@ -249,6 +267,11 @@ button.primary {
   border-color: rgba(124,255,0,.62);
   color: #ecffe4;
   box-shadow: 0 0 20px rgba(124,255,0,.16);
+}
+
+button.warning {
+  border-color: rgba(255,230,0,.62);
+  color: #fff8cc;
 }
 
 .info-grid {
@@ -303,14 +326,27 @@ button.primary {
   line-height: 1.45;
 }
 
+.runtime-note {
+  margin-top: 14px;
+  border: 1px solid rgba(0,245,255,.18);
+  border-radius: 16px;
+  padding: 14px;
+  color: rgba(232,251,255,.76);
+  background: rgba(0,0,0,.28);
+  font-family: var(--mono);
+  font-size: .74rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
 @keyframes ringPulse {
   0%, 100% {
-    opacity: .36;
+    opacity: .28;
     transform: scale(.97);
   }
 
   50% {
-    opacity: .95;
+    opacity: .72;
     transform: scale(1.04);
   }
 }
@@ -322,7 +358,7 @@ button.primary {
   }
 
   35% {
-    opacity: .55;
+    opacity: .38;
   }
 
   100% {
@@ -333,8 +369,8 @@ button.primary {
 
 @media (max-width: 760px) {
   .stage-wrap {
-    height: 560px;
-    min-height: 500px;
+    height: 600px;
+    min-height: 560px;
   }
 
   .info-grid {
@@ -343,6 +379,11 @@ button.primary {
 
   .badge {
     font-size: .66rem;
+  }
+
+  .status {
+    font-size: .66rem;
+    border-radius: 18px;
   }
 }
 </style>
@@ -368,7 +409,7 @@ button.primary {
     <div class="stage-wrap" id="stageWrap">
       <model-viewer
         id="dragonEgg"
-        src="./assets/dragon-egg.glb"
+        src="./assets/dragon-egg.glb?v=live-glb-render-fix-005"
         alt="Aurora Logistical Eco Holdings Dragon Egg GLB"
         auto-rotate
         auto-rotate-delay="0"
@@ -376,13 +417,14 @@ button.primary {
         camera-controls
         touch-action="pan-y"
         interaction-prompt="auto"
-        shadow-intensity="1"
-        exposure="1.25"
+        shadow-intensity="0.65"
+        shadow-softness="0.8"
+        exposure="0.72"
         environment-image="neutral"
-        camera-orbit="0deg 75deg 4.2m"
-        min-camera-orbit="auto auto 2.4m"
+        camera-orbit="0deg 72deg 4.3m"
+        min-camera-orbit="auto auto 2.2m"
         max-camera-orbit="auto auto 8m"
-        field-of-view="32deg"
+        field-of-view="31deg"
         loading="eager"
         reveal="auto">
       </model-viewer>
@@ -398,14 +440,22 @@ button.primary {
       <button class="primary" id="enterButton">Enter ALEH Gate</button>
       <button id="rotateButton">Rotation: On</button>
       <button id="resetButton">Reset View</button>
-      <a class="button" href="./assets/dragon-egg.glb" target="_blank" rel="noopener">Open GLB Asset</a>
+      <button id="lightButton">Lighting: Neutral</button>
+      <button id="dimButton">Dim Render</button>
+      <button class="warning" id="reloadButton">Reload GLB</button>
+      <a class="button" href="./assets/dragon-egg.glb?v=live-glb-render-fix-005" target="_blank" rel="noopener">Open GLB Asset</a>
+      <a class="button" href="./assets/dragon-egg.sha256" target="_blank" rel="noopener">Asset SHA</a>
+    </div>
+
+    <div class="runtime-note" id="runtimeNote">
+      Runtime source: <code>./assets/dragon-egg.glb?v=live-glb-render-fix-005</code>
     </div>
   </section>
 
   <section class="info-grid" id="siteContent">
     <article class="info-card">
       <h2>Runtime Source</h2>
-      <p>The egg is loaded from the same GitHub Pages site as a real GLB file.</p>
+      <p>The egg is loaded from the same GitHub Pages site as a real GLB file imported from the newest release asset.</p>
     </article>
 
     <article class="info-card">
@@ -430,12 +480,32 @@ const statusText = document.getElementById("statusText");
 const enterButton = document.getElementById("enterButton");
 const rotateButton = document.getElementById("rotateButton");
 const resetButton = document.getElementById("resetButton");
+const lightButton = document.getElementById("lightButton");
+const dimButton = document.getElementById("dimButton");
+const reloadButton = document.getElementById("reloadButton");
 const errorBox = document.getElementById("errorBox");
+const runtimeNote = document.getElementById("runtimeNote");
+
+const GLB_BASE = "./assets/dragon-egg.glb";
+const GLB_VERSION = "live-glb-render-fix-005";
 
 let rotating = true;
+let lightingMode = "neutral";
+let exposureMode = "normal";
+let reloadCount = 0;
+
+function currentModelUrl() {
+  return `${GLB_BASE}?v=${GLB_VERSION}-${reloadCount}`;
+}
+
+function setModelSource() {
+  const url = currentModelUrl();
+  viewer.setAttribute("src", url);
+  runtimeNote.innerHTML = `Runtime source: <code>${url}</code>`;
+}
 
 viewer.addEventListener("load", () => {
-  statusText.textContent = "Real Aurora Dragon Egg GLB loaded. Click the egg or press Enter ALEH Gate.";
+  statusText.textContent = "Real Aurora Dragon Egg GLB loaded. Render exposure corrected.";
   errorBox.style.display = "none";
 });
 
@@ -450,7 +520,7 @@ viewer.addEventListener("error", (event) => {
   statusText.textContent = "Dragon Egg GLB failed to load.";
   errorBox.style.display = "block";
   errorBox.textContent =
-    "The page is looking for ./assets/dragon-egg.glb. Confirm the GLB file exists at auroralogisticalecoholdings/assets/dragon-egg.glb and is published through GitHub Pages.";
+    "The page is looking for ./assets/dragon-egg.glb. Confirm the GitHub Action imported the latest release .glb and that GitHub Pages deployed the newest commit.";
   console.error("model-viewer GLB error:", event);
 });
 
@@ -476,10 +546,50 @@ rotateButton.addEventListener("click", () => {
 });
 
 resetButton.addEventListener("click", () => {
-  viewer.cameraOrbit = "0deg 75deg 4.2m";
-  viewer.fieldOfView = "32deg";
+  viewer.cameraOrbit = "0deg 72deg 4.3m";
+  viewer.fieldOfView = "31deg";
   statusText.textContent = "View reset. Real GLB runtime remains active.";
 });
+
+lightButton.addEventListener("click", () => {
+  if (lightingMode === "neutral") {
+    lightingMode = "soft";
+    viewer.setAttribute("environment-image", "https://modelviewer.dev/shared-assets/environments/aircraft_workshop_01_1k.hdr");
+    viewer.removeAttribute("skybox-image");
+    viewer.setAttribute("exposure", exposureMode === "dim" ? "0.42" : "0.62");
+    lightButton.textContent = "Lighting: Soft HDR";
+    statusText.textContent = "Soft HDR lighting enabled.";
+  } else {
+    lightingMode = "neutral";
+    viewer.setAttribute("environment-image", "neutral");
+    viewer.removeAttribute("skybox-image");
+    viewer.setAttribute("exposure", exposureMode === "dim" ? "0.48" : "0.72");
+    lightButton.textContent = "Lighting: Neutral";
+    statusText.textContent = "Neutral lighting enabled.";
+  }
+});
+
+dimButton.addEventListener("click", () => {
+  if (exposureMode === "normal") {
+    exposureMode = "dim";
+    viewer.setAttribute("exposure", lightingMode === "soft" ? "0.42" : "0.48");
+    dimButton.textContent = "Brighten Render";
+    statusText.textContent = "Render dimmed to recover colour detail.";
+  } else {
+    exposureMode = "normal";
+    viewer.setAttribute("exposure", lightingMode === "soft" ? "0.62" : "0.72");
+    dimButton.textContent = "Dim Render";
+    statusText.textContent = "Render brightness restored.";
+  }
+});
+
+reloadButton.addEventListener("click", () => {
+  reloadCount += 1;
+  setModelSource();
+  statusText.textContent = "Reloading GLB with cache-bust token…";
+});
+
+setModelSource();
 </script>
 </body>
 </html>
