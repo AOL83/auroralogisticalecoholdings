@@ -3,44 +3,45 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <meta name="theme-color" content="#050612" />
-  <meta name="referrer" content="strict-origin-when-cross-origin" />
-  <title>Aurora Logistical Eco Holdings | Entry Gate</title>
-
+  <title>Dragon Egg Character | Aurora Logistical Eco Holdings</title>
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-
   <style>
     :root {
-      --bg: #050612;
-      --panel: rgba(8, 16, 34, 0.82);
-      --panel2: rgba(5, 8, 18, 0.94);
-      --text: #eef8ff;
-      --muted: #9fb0ca;
-      --cyan: #58f6ff;
-      --green: #55ff9f;
-      --yellow: #eaff38;
-      --pink: #ff4fd8;
-      --red: #ff4d6d;
-      --line: rgba(88, 246, 255, 0.24);
-      --hot: rgba(234, 255, 56, 0.48);
-      --radius: 30px;
-      --shadow: 0 28px 90px rgba(0, 0, 0, 0.55);
-      --max: 1120px;
+      --bg: #03050d;
+      --panel: rgba(2, 8, 18, 0.88);
+      --text: #f4fbff;
+      --muted: #bfd0df;
+      --neon-lime: #eaff38;
+      --neon-green: #55ff9f;
+      --neon-cyan: #36e9ff;
+      --neon-pink: #ff2fd6;
+      --neon-red: #ff304f;
+      --neon-blue: #208cff;
+      --line: rgba(54, 233, 255, 0.36);
     }
 
     * { box-sizing: border-box; }
-    html { background: var(--bg); scroll-behavior: smooth; }
-    body {
+
+    html, body {
       margin: 0;
-      min-height: 100vh;
+      min-height: 100%;
+      background: var(--bg);
       color: var(--text);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background:
-        radial-gradient(circle at 16% 6%, rgba(255,79,216,0.18), transparent 32rem),
-        radial-gradient(circle at 86% 10%, rgba(88,246,255,0.24), transparent 34rem),
-        radial-gradient(circle at 50% 94%, rgba(234,255,56,0.13), transparent 30rem),
-        linear-gradient(135deg, #03040d 0%, #08111f 48%, #050612 100%);
+      font-family: Inter, Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
       overflow-x: hidden;
+      background:
+        radial-gradient(circle at 15% 10%, rgba(255, 47, 214, 0.25), transparent 22rem),
+        radial-gradient(circle at 86% 12%, rgba(54, 233, 255, 0.22), transparent 24rem),
+        radial-gradient(circle at 50% 92%, rgba(234, 255, 56, 0.18), transparent 30rem),
+        linear-gradient(135deg, #03050d 0%, #07101f 52%, #02040a 100%);
     }
 
     body::before {
@@ -48,492 +49,348 @@
       position: fixed;
       inset: 0;
       pointer-events: none;
-      opacity: 0.22;
+      opacity: 0.23;
       background-image:
-        linear-gradient(rgba(88,246,255,0.08) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(88,246,255,0.08) 1px, transparent 1px);
-      background-size: 54px 54px;
-      mask-image: linear-gradient(to bottom, transparent, black 18%, black 82%, transparent);
+        linear-gradient(rgba(54,233,255,0.10) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(234,255,56,0.08) 1px, transparent 1px);
+      background-size: 34px 34px;
       z-index: -1;
     }
 
-    a { color: inherit; }
-    button, input, select { font: inherit; }
+    .screen { display: none; min-height: 100vh; padding: 18px; }
+    .screen.active { display: grid; place-items: center; }
 
-    .wrap {
-      width: min(100% - 1.25rem, var(--max));
-      margin: 0 auto;
+    .card {
+      width: min(96vw, 620px);
+      min-height: min(94vh, 900px);
+      position: relative;
+      overflow: hidden;
+      border-radius: 26px;
+      padding: 18px;
+      background: linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.015)), var(--panel);
+      border: 2px solid rgba(54, 233, 255, 0.38);
+      box-shadow:
+        0 0 0 1px rgba(234,255,56,0.18) inset,
+        0 0 50px rgba(54,233,255,0.16),
+        0 30px 90px rgba(0,0,0,0.65);
     }
 
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      border-bottom: 1px solid rgba(88,246,255,0.16);
-      background: rgba(3, 6, 16, 0.78);
-      backdrop-filter: blur(18px) saturate(140%);
+    .card::before,
+    .card::after {
+      content: "";
+      position: absolute;
+      pointer-events: none;
+      inset: 12px;
+      border-radius: 20px;
+      border: 2px solid transparent;
+      background:
+        linear-gradient(var(--panel), var(--panel)) padding-box,
+        linear-gradient(135deg, var(--neon-red), var(--neon-pink), var(--neon-cyan), var(--neon-lime)) border-box;
+      opacity: 0.72;
+      z-index: 0;
     }
 
-    .topbar-inner {
-      min-height: 72px;
+    .card::after {
+      inset: 30px;
+      opacity: 0.34;
+      filter: blur(0.2px);
+    }
+
+    .content { position: relative; z-index: 1; display: grid; gap: 12px; min-height: calc(94vh - 60px); }
+
+    .top-row {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 1rem;
+      align-items: center;
+      gap: 12px;
+      color: var(--neon-red);
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: clamp(0.8rem, 3vw, 1rem);
     }
 
     .brand {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      text-decoration: none;
-      min-width: 0;
+      text-align: center;
+      border: 1px solid rgba(234,255,56,0.35);
+      border-radius: 999px;
+      padding: 8px 12px;
+      background: rgba(0,0,0,0.38);
+      box-shadow: 0 0 22px rgba(234,255,56,0.18);
     }
 
-    .mark {
-      width: 46px;
-      height: 46px;
+    .brand strong {
+      display: block;
+      color: var(--neon-lime);
+      font-size: clamp(1.4rem, 7vw, 2.5rem);
+      line-height: 0.9;
+      letter-spacing: 0.03em;
+    }
+
+    .brand span { color: var(--text); font-size: clamp(0.65rem, 2.5vw, 0.92rem); letter-spacing: 0.26em; }
+
+    h1 {
+      margin: 4px 0 0;
+      text-align: center;
+      text-transform: uppercase;
+      font-size: clamp(3.2rem, 17vw, 7.2rem);
+      line-height: 0.78;
+      letter-spacing: -0.06em;
+      font-weight: 950;
+      color: transparent;
+      background: linear-gradient(100deg, #ff164f 4%, #ff2fd6 38%, #8b4dff 62%, #1e8cff 95%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      filter: drop-shadow(0 0 18px rgba(255,47,214,0.35));
+    }
+
+    .subtitle {
+      margin: 0;
+      text-align: center;
+      color: var(--neon-lime);
+      letter-spacing: 0.48em;
+      font-weight: 950;
+      font-size: clamp(1rem, 5vw, 1.9rem);
+      text-indent: 0.48em;
+    }
+
+    .egg-frame {
+      position: relative;
       display: grid;
       place-items: center;
-      border-radius: 16px;
-      color: #021008;
-      font-weight: 950;
-      background: linear-gradient(135deg, var(--yellow), var(--green));
-      border: 1px solid rgba(234,255,56,0.42);
-      box-shadow: 0 0 34px rgba(234,255,56,0.22), inset 0 0 20px rgba(255,255,255,0.25);
-      flex: 0 0 auto;
-    }
-
-    .brand-title { display: block; font-weight: 950; letter-spacing: -0.04em; white-space: nowrap; }
-    .brand-sub { display: block; color: var(--muted); font-size: 0.72rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; }
-
-    .status-line { display: none; gap: 0.5rem; flex-wrap: wrap; }
-    .pill {
-      display: inline-flex;
-      min-height: 32px;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid rgba(234,255,56,0.32);
-      border-radius: 999px;
-      padding: 0.35rem 0.7rem;
-      background: rgba(0,0,0,0.28);
-      color: #dfff57;
-      font-size: 0.72rem;
-      font-weight: 900;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .screen { display: none; padding: clamp(1.35rem, 5vw, 4rem) 0; }
-    .screen.active { display: block; }
-
-    .card {
-      position: relative;
+      min-height: 340px;
+      margin: 4px 0;
+      border-radius: 24px;
+      background:
+        radial-gradient(circle at center, rgba(234,255,56,0.13), transparent 18rem),
+        radial-gradient(circle at center, rgba(54,233,255,0.14), transparent 14rem),
+        rgba(0,0,0,0.2);
+      border: 1px solid rgba(54,233,255,0.25);
       overflow: hidden;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.025)), var(--panel);
-      box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,0.12);
     }
 
-    .card::before {
+    .egg-frame::before {
       content: "";
       position: absolute;
-      inset: -1px;
-      border-radius: inherit;
-      padding: 1px;
-      background: linear-gradient(135deg, rgba(88,246,255,0.62), transparent 30%, rgba(255,79,216,0.5), transparent 64%, rgba(234,255,56,0.64));
-      mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-      mask-composite: exclude;
-      pointer-events: none;
-    }
-
-    .entry-card {
-      min-height: calc(100vh - 118px);
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1.4rem;
-      align-items: center;
-      padding: clamp(1rem, 4vw, 2.5rem);
-    }
-
-    .copy-block { position: relative; z-index: 1; }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-      width: fit-content;
-      margin: 0 0 1rem;
-      padding: 0.45rem 0.75rem;
-      border: 1px solid rgba(88,246,255,0.28);
+      width: 78%;
+      height: 18px;
+      bottom: 28px;
       border-radius: 999px;
-      background: rgba(88,246,255,0.08);
-      color: var(--cyan);
-      font-size: 0.73rem;
-      font-weight: 950;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-    }
-
-    .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: var(--green);
-      box-shadow: 0 0 18px var(--green);
-      animation: pulse 1.8s ease-in-out infinite;
-    }
-
-    h1, h2 { margin: 0; letter-spacing: -0.075em; line-height: 0.9; }
-    h1 { font-size: clamp(3rem, 13vw, 7.5rem); }
-    h2 { font-size: clamp(2.4rem, 9vw, 5.4rem); }
-
-    .gradient {
-      color: transparent;
-      background: linear-gradient(105deg, #fff, var(--cyan) 34%, var(--pink) 67%, var(--yellow));
-      background-clip: text;
-      -webkit-background-clip: text;
-      filter: drop-shadow(0 0 30px rgba(88,246,255,0.18));
-    }
-
-    .copy {
-      max-width: 760px;
-      color: #c7d5ee;
-      font-size: clamp(1rem, 2.3vw, 1.22rem);
-      line-height: 1.7;
-    }
-
-    .egg-stage {
-      position: relative;
-      min-height: 420px;
-      display: grid;
-      place-items: center;
-      border-radius: 28px;
-      background: radial-gradient(circle at center, rgba(88,246,255,0.12), rgba(0,0,0,0.24) 58%, rgba(0,0,0,0.06));
-      border: 1px solid rgba(234,255,56,0.18);
-      z-index: 1;
+      background: linear-gradient(90deg, var(--neon-red), var(--neon-pink), var(--neon-cyan), var(--neon-lime));
+      filter: blur(10px);
+      opacity: 0.72;
     }
 
     model-viewer {
-      width: min(92vw, 520px);
-      height: min(70vh, 520px);
-      min-height: 360px;
+      width: 100%;
+      height: 420px;
+      max-height: 54vh;
+      min-height: 330px;
       background: transparent;
       cursor: pointer;
       --poster-color: transparent;
+      z-index: 2;
     }
 
-    .hint {
-      position: absolute;
-      bottom: 1rem;
-      left: 50%;
-      transform: translateX(-50%);
-      border: 1px solid rgba(234,255,56,0.35);
-      border-radius: 999px;
-      padding: 0.45rem 0.75rem;
-      background: rgba(0,0,0,0.36);
-      color: var(--yellow);
-      font-size: 0.78rem;
-      font-weight: 900;
-      white-space: nowrap;
+    .coming {
+      margin: 0;
+      text-align: center;
+      color: #fff;
+      font-size: clamp(1.5rem, 7vw, 3rem);
+      line-height: 1.05;
+      font-weight: 950;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      text-shadow: 0 0 18px rgba(255,255,255,0.4);
     }
 
-    .actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.7rem; }
+    .actions {
+      display: grid;
+      gap: 10px;
+      margin-top: 4px;
+    }
 
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 50px;
-      border: 1px solid var(--hot);
+    button {
+      min-height: 54px;
+      border: 0;
       border-radius: 999px;
-      padding: 0.85rem 1.15rem;
+      padding: 14px 16px;
       cursor: pointer;
       font-weight: 950;
+      font-size: 1rem;
+    }
+
+    .primary {
+      color: #03050d;
+      background: linear-gradient(135deg, var(--neon-lime), var(--neon-green));
+      box-shadow: 0 0 28px rgba(234,255,56,0.35);
+    }
+
+    .secondary {
       color: var(--text);
-      background: rgba(255,255,255,0.05);
-      text-decoration: none;
-      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      background: rgba(0,0,0,0.42);
+      border: 1px solid rgba(54,233,255,0.36);
     }
 
-    .btn:hover, .btn:focus { transform: translateY(-2px); border-color: rgba(234,255,56,0.8); box-shadow: 0 0 34px rgba(234,255,56,0.18); outline: none; }
-    .btn-primary { background: linear-gradient(135deg, var(--yellow), var(--green)); color: #031008; box-shadow: 0 0 36px rgba(234,255,56,0.22); }
-    .btn-danger { border-color: rgba(255,77,109,0.55); color: #ffd2da; }
+    .gate-card, .site-card { padding: clamp(22px, 5vw, 36px); }
 
-    .path-list {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 0.75rem;
-      margin-top: 1.5rem;
+    .gate-card h2, .site-card h2 {
+      margin: 0 0 12px;
+      color: transparent;
+      background: linear-gradient(100deg, #fff, var(--neon-cyan), var(--neon-pink), var(--neon-lime));
+      -webkit-background-clip: text;
+      background-clip: text;
+      font-size: clamp(2.4rem, 10vw, 4.8rem);
+      line-height: 0.9;
+      letter-spacing: -0.06em;
     }
 
-    .layer {
-      min-height: 96px;
-      padding: 1rem;
-      border: 1px solid rgba(255,255,255,0.09);
-      border-radius: 22px;
-      background: rgba(0,0,0,0.22);
-    }
+    .copy { color: var(--muted); line-height: 1.6; font-size: 1rem; }
 
-    .layer strong { display: block; color: var(--yellow); }
-    .layer span { display: block; margin-top: 0.32rem; color: var(--muted); font-size: 0.86rem; line-height: 1.45; }
-
-    .gate-grid, .site-grid {
-      display: grid;
-      gap: 1rem;
-      align-items: stretch;
-    }
-
-    .gate-card, .site-card { padding: clamp(1.2rem, 4vw, 2.5rem); }
-
-    .field {
-      display: grid;
-      gap: 0.45rem;
-      margin-top: 1rem;
-    }
-
-    .field label {
-      color: var(--yellow);
-      font-size: 0.72rem;
-      font-weight: 950;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-    }
-
-    .field input, .field select {
+    label { display: block; margin: 14px 0 6px; color: var(--neon-lime); font-weight: 900; text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.78rem; }
+    input, select {
       width: 100%;
-      min-height: 52px;
-      border: 1px solid rgba(88,246,255,0.24);
-      border-radius: 16px;
-      outline: none;
-      padding: 0.85rem 1rem;
-      background: rgba(0,0,0,0.34);
+      min-height: 50px;
+      border: 1px solid rgba(54,233,255,0.36);
+      border-radius: 14px;
+      background: rgba(0,0,0,0.45);
       color: var(--text);
-      font-weight: 750;
-    }
-
-    .field input:focus, .field select:focus { border-color: rgba(88,246,255,0.78); box-shadow: 0 0 0 4px rgba(88,246,255,0.1); }
-
-    .side-panel {
-      min-height: 260px;
-      padding: 1rem;
-      border: 1px solid rgba(234,255,56,0.24);
-      border-radius: 24px;
-      background: radial-gradient(circle at 20% 10%, rgba(234,255,56,0.16), transparent 18rem), rgba(0,0,0,0.28);
+      padding: 12px;
+      outline: none;
     }
 
     .log {
-      min-height: 160px;
-      max-height: 260px;
-      overflow: auto;
-      padding: 0.85rem;
-      border: 1px solid rgba(88,246,255,0.16);
-      border-radius: 18px;
-      background: rgba(0,0,0,0.38);
+      min-height: 130px;
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 16px;
+      background: rgba(0,0,0,0.42);
+      border: 1px solid rgba(234,255,56,0.2);
       color: var(--muted);
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: 0.78rem;
-      line-height: 1.45;
       white-space: pre-wrap;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.8rem;
+      line-height: 1.45;
     }
 
-    .site-grid { grid-template-columns: 1fr; }
+    .services { display: grid; gap: 10px; margin-top: 18px; }
+    .service { border: 1px solid rgba(54,233,255,0.24); border-radius: 16px; background: rgba(0,0,0,0.28); padding: 14px; }
+    .service strong { display: block; color: var(--neon-lime); margin-bottom: 4px; }
+    .service span { color: var(--muted); line-height: 1.4; }
 
-    .services {
-      display: grid;
-      gap: 0.75rem;
-      margin-top: 1.25rem;
-    }
-
-    .service {
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 20px;
-      padding: 1rem;
-      background: rgba(0,0,0,0.22);
-    }
-
-    .service strong { color: var(--yellow); display: block; margin-bottom: 0.3rem; }
-    .service span { color: var(--muted); line-height: 1.45; }
-
-    .note {
-      margin-top: 1rem;
-      color: var(--muted);
-      font-size: 0.9rem;
-      line-height: 1.55;
-    }
-
-    .hidden { display: none !important; }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); opacity: 0.78; }
-      50% { transform: scale(1.35); opacity: 1; }
-    }
-
-    @media (min-width: 820px) {
-      .status-line { display: flex; }
-      .entry-card { grid-template-columns: 0.95fr 1.05fr; }
-      .gate-grid { grid-template-columns: 1.1fr 0.9fr; }
-      .site-grid { grid-template-columns: 1fr 0.85fr; }
-      .services { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    }
-
-    @media (max-width: 720px) {
-      .path-list { grid-template-columns: 1fr; }
-      .brand-sub { display: none; }
-      model-viewer { height: 390px; }
-      .egg-stage { min-height: 390px; }
+    @media (max-width: 520px) {
+      .screen { padding: 10px; }
+      .card { border-radius: 22px; padding: 12px; }
+      .content { min-height: calc(100vh - 36px); }
+      .top-row { font-size: 0.72rem; }
+      .brand strong { font-size: 1.55rem; }
+      .brand span { letter-spacing: 0.16em; }
+      model-viewer { height: 360px; }
+      .egg-frame { min-height: 320px; }
     }
   </style>
 </head>
-
 <body>
-  <header class="topbar">
-    <div class="wrap topbar-inner">
-      <a href="#entry" class="brand" id="brandHome" aria-label="Aurora entry card home">
-        <span class="mark">A</span>
-        <span>
-          <span class="brand-title">Aurora Logistical Eco Holdings</span>
-          <span class="brand-sub">Entry card · lock and gate · holding site</span>
-        </span>
-      </a>
-      <div class="status-line" aria-label="Route status">
-        <span class="pill" id="routePill">ENTRY CARD</span>
-        <span class="pill" id="lockPill">LOCKED</span>
-      </div>
-    </div>
-  </header>
+  <section class="screen active" id="entryScreen">
+    <main class="card" aria-label="Dragon Egg Character entry card">
+      <div class="content">
+        <div class="top-row">
+          <span>2026</span>
+          <div class="brand"><strong>TERENCE OS</strong><span>OPERATING SYSTEMS</span></div>
+          <span>20<br>26</span>
+        </div>
 
-  <main>
-    <section class="screen active" id="entryScreen" aria-labelledby="entryTitle">
-      <div class="wrap">
-        <div class="card entry-card">
-          <div class="copy-block">
-            <p class="eyebrow"><span class="dot"></span> User entry point</p>
-            <h1 id="entryTitle"><span class="gradient">Dragon egg</span><br />entry card.</h1>
-            <p class="copy">
-              This is the first stop. The live links land here first. The egg is the visual loading card and the interactive object. Select the egg or the gate button to move to the lock and gate.
-            </p>
-            <div class="actions">
-              <button class="btn btn-primary" id="enterGateBtn">Enter Lock and Gate</button>
-              <button class="btn" id="spinEggBtn">Focus Egg</button>
-            </div>
-            <div class="path-list" aria-label="Page order">
-              <div class="layer"><strong>01 Entry Card</strong><span>Visual dragon egg. All entry links start here.</span></div>
-              <div class="layer"><strong>02 Lock and Gate</strong><span>User information is entered and confirmed.</span></div>
-              <div class="layer"><strong>03 Website</strong><span>Confirmation opens Aurora Logistical Eco Holdings.</span></div>
-            </div>
-          </div>
+        <h1>Dragon Egg</h1>
+        <p class="subtitle">Character</p>
 
-          <div class="egg-stage" aria-label="Interactive dragon egg model">
-            <model-viewer
-              id="eggModel"
-              src="./assets/dragon-egg.glb"
-              alt="Interactive Dragon Egg"
-              autoplay
-              auto-rotate
-              camera-controls
-              shadow-intensity="1"
-              exposure="1"
-              interaction-prompt="auto">
-            </model-viewer>
-            <div class="hint">Click or rotate the egg</div>
-          </div>
+        <div class="egg-frame">
+          <model-viewer
+            id="eggModel"
+            src="./assets/dragon-egg.glb?v=2"
+            alt="Interactive Dragon Egg Character"
+            autoplay
+            auto-rotate
+            camera-controls
+            shadow-intensity="1"
+            exposure="1.15"
+            interaction-prompt="auto">
+          </model-viewer>
+        </div>
+
+        <p class="coming">Coming soon to<br>Blockchain</p>
+
+        <div class="actions">
+          <button class="primary" id="enterGateBtn">Enter Lock and Gate</button>
+          <button class="secondary" id="rotateHintBtn">Tap, rotate, or click the egg</button>
         </div>
       </div>
-    </section>
+    </main>
+  </section>
 
-    <section class="screen" id="gateScreen" aria-labelledby="gateTitle">
-      <div class="wrap gate-grid">
-        <div class="card gate-card">
-          <p class="eyebrow"><span class="dot"></span> Lock and gate</p>
-          <h2 id="gateTitle"><span class="gradient">Confirm entry.</span></h2>
-          <p class="copy">
-            This is the second stop. The user enters their information here. When the inputs are confirmed, the site opens. Until then, the holding site stays locked.
-          </p>
+  <section class="screen" id="gateScreen">
+    <main class="card gate-card">
+      <h2>Lock and Gate</h2>
+      <p class="copy">Enter the visitor information. When the inputs are confirmed, the Aurora Logistical Eco Holdings website opens.</p>
 
-          <div class="field">
-            <label for="visitorName">Name</label>
-            <input id="visitorName" type="text" autocomplete="name" placeholder="Enter your name" />
-          </div>
+      <label for="visitorName">Name</label>
+      <input id="visitorName" type="text" autocomplete="name" placeholder="Enter your name" />
 
-          <div class="field">
-            <label for="visitorEmail">Email</label>
-            <input id="visitorEmail" type="email" autocomplete="email" placeholder="name@example.com" />
-          </div>
+      <label for="visitorEmail">Email</label>
+      <input id="visitorEmail" type="email" autocomplete="email" placeholder="name@example.com" />
 
-          <div class="field">
-            <label for="visitorRole">Reason for entry</label>
-            <select id="visitorRole">
-              <option value="">Choose one</option>
-              <option>Logistics enquiry</option>
-              <option>Eco holdings enquiry</option>
-              <option>Partnership enquiry</option>
-              <option>General access</option>
-            </select>
-          </div>
+      <label for="visitorRole">Reason for entry</label>
+      <select id="visitorRole">
+        <option value="">Choose one</option>
+        <option>Logistics enquiry</option>
+        <option>Eco holdings enquiry</option>
+        <option>Partnership enquiry</option>
+        <option>General access</option>
+      </select>
 
-          <div class="field">
-            <label for="accessPhrase">Access phrase</label>
-            <input id="accessPhrase" type="password" autocomplete="off" placeholder="Enter: aurora" />
-          </div>
+      <label for="accessPhrase">Access phrase</label>
+      <input id="accessPhrase" type="password" autocomplete="off" placeholder="Enter: aurora" />
 
-          <div class="actions">
-            <button class="btn btn-primary" id="confirmGateBtn">Confirm and Open Website</button>
-            <button class="btn" id="backEntryBtn">Back to Egg Card</button>
-          </div>
-
-          <p class="note">Temporary prototype phrase: aurora. Replace this later with passkey or backend verification.</p>
-        </div>
-
-        <div class="side-panel">
-          <div class="log" id="gateLog">Gate ready.
-Step 1: entry card loaded.
-Step 2: waiting for visitor confirmation.
-Step 3: website remains locked until confirmation.</div>
-        </div>
+      <div class="actions">
+        <button class="primary" id="confirmGateBtn">Confirm and Open Website</button>
+        <button class="secondary" id="backEntryBtn">Back to Dragon Egg</button>
       </div>
-    </section>
 
-    <section class="screen" id="siteScreen" aria-labelledby="siteTitle">
-      <div class="wrap site-grid">
-        <div class="card site-card">
-          <p class="eyebrow"><span class="dot"></span> Aurora website</p>
-          <h2 id="siteTitle"><span class="gradient">Aurora Logistical Eco Holdings.</span></h2>
-          <p class="copy">
-            Entry confirmed. This is the holding website section after the lock and gate. The original shell content has been moved behind the correct order instead of appearing before the egg card.
-          </p>
-          <div class="actions">
-            <button class="btn" id="siteBackGateBtn">Back to Gate</button>
-            <button class="btn btn-danger" id="resetFlowBtn">Lock and Return to Entry</button>
-          </div>
-        </div>
+      <div class="log" id="gateLog">Gate ready.
+Entry card loaded first.
+Website is locked until confirmation.</div>
+    </main>
+  </section>
 
-        <div class="card site-card">
-          <p class="eyebrow"><span class="dot"></span> Operating areas</p>
-          <div class="services">
-            <div class="service"><strong>Logistics</strong><span>Routing, planning, movement and operational support.</span></div>
-            <div class="service"><strong>Eco Holdings</strong><span>Asset direction, sustainability thinking and growth structure.</span></div>
-            <div class="service"><strong>Partnerships</strong><span>Contact path for collaborators, suppliers and project partners.</span></div>
-            <div class="service"><strong>Systems</strong><span>Digital shell, gate flow and future protected modules.</span></div>
-          </div>
-          <p class="note" id="visitorSummary">Visitor session active.</p>
-        </div>
+  <section class="screen" id="siteScreen">
+    <main class="card site-card">
+      <h2>Aurora Logistical Eco Holdings</h2>
+      <p class="copy">Entry confirmed. The visitor has passed through the lock and gate. This is the Aurora Logistical Eco Holdings website area.</p>
+      <div class="services">
+        <div class="service"><strong>Logistics</strong><span>Routing, planning, movement and operational support.</span></div>
+        <div class="service"><strong>Eco Holdings</strong><span>Asset direction, sustainability and growth structure.</span></div>
+        <div class="service"><strong>Partnerships</strong><span>Contact path for collaborators, suppliers and project partners.</span></div>
+        <div class="service"><strong>Systems</strong><span>Digital shell, gate flow and future protected modules.</span></div>
       </div>
-    </section>
-  </main>
+      <div class="actions">
+        <button class="secondary" id="siteBackGateBtn">Back to Gate</button>
+        <button class="primary" id="resetFlowBtn">Lock and Return to Egg</button>
+      </div>
+    </main>
+  </section>
 
   <script>
     const ACCESS_PHRASE = 'aurora';
-    const SESSION_KEY = 'aurora:gate:confirmed';
-    const VISITOR_KEY = 'aurora:visitor:summary';
+    const confirmedKey = 'aurora:gate:confirmed:v2';
     const $ = (id) => document.getElementById(id);
+    const screens = { entry: $('entryScreen'), gate: $('gateScreen'), site: $('siteScreen') };
 
-    const screens = {
-      entry: $('entryScreen'),
-      gate: $('gateScreen'),
-      site: $('siteScreen')
-    };
+    function show(name) {
+      if (name === 'site' && sessionStorage.getItem(confirmedKey) !== 'true') name = 'gate';
+      Object.values(screens).forEach((screen) => screen.classList.remove('active'));
+      screens[name].classList.add('active');
+      history.replaceState(null, '', `#${name}`);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
     function log(message) {
       const now = new Date().toLocaleTimeString();
@@ -541,39 +398,9 @@ Step 3: website remains locked until confirmation.</div>
       $('gateLog').scrollTop = $('gateLog').scrollHeight;
     }
 
-    function isConfirmed() {
-      return sessionStorage.getItem(SESSION_KEY) === 'true';
-    }
-
-    function setConfirmed(value) {
-      if (value) sessionStorage.setItem(SESSION_KEY, 'true');
-      else sessionStorage.removeItem(SESSION_KEY);
-      updateStatus();
-    }
-
-    function updateStatus(route = null) {
-      $('lockPill').textContent = isConfirmed() ? 'CONFIRMED' : 'LOCKED';
-      $('lockPill').style.color = isConfirmed() ? '#55ff9f' : '#eaff38';
-      if (route) $('routePill').textContent = route;
-    }
-
-    function showScreen(name, updateHash = true) {
-      if (name === 'site' && !isConfirmed()) {
-        name = 'gate';
-        log('Website blocked. Visitor confirmation is required first.');
-      }
-
-      Object.values(screens).forEach((screen) => screen.classList.remove('active'));
-      screens[name].classList.add('active');
-      const labels = { entry: 'ENTRY CARD', gate: 'LOCK AND GATE', site: 'WEBSITE' };
-      updateStatus(labels[name]);
-      if (updateHash) history.replaceState(null, '', `#${name}`);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
     function openGate() {
-      showScreen('gate');
-      log('Visitor moved from egg card to lock and gate.');
+      show('gate');
+      log('Dragon egg selected. Lock and gate opened.');
     }
 
     function confirmGate() {
@@ -583,47 +410,30 @@ Step 3: website remains locked until confirmation.</div>
       const phrase = $('accessPhrase').value.trim().toLowerCase();
 
       if (!name || !email || !role || !phrase) {
-        log('Confirmation failed. All fields are required.');
+        log('Confirmation failed. Complete every field.');
         return;
       }
 
       if (phrase !== ACCESS_PHRASE) {
-        setConfirmed(false);
-        log('Confirmation failed. Access phrase was incorrect.');
+        sessionStorage.removeItem(confirmedKey);
         $('accessPhrase').value = '';
         $('accessPhrase').focus();
+        log('Confirmation failed. Access phrase incorrect.');
         return;
       }
 
-      setConfirmed(true);
-      const summary = `${name} confirmed for ${role}. Email: ${email}`;
-      sessionStorage.setItem(VISITOR_KEY, summary);
-      $('visitorSummary').textContent = summary;
-      log('Inputs confirmed. Opening Aurora Logistical Eco Holdings website.');
-      showScreen('site');
+      sessionStorage.setItem(confirmedKey, 'true');
+      log('Inputs confirmed. Website opening.');
+      show('site');
     }
 
-    function restoreFromHash() {
-      const hash = window.location.hash.replace('#', '');
-      if (hash === 'gate') showScreen('gate', false);
-      else if (hash === 'site') showScreen('site', false);
-      else showScreen('entry', false);
-    }
-
-    $('brandHome').addEventListener('click', (event) => { event.preventDefault(); showScreen('entry'); });
-    $('enterGateBtn').addEventListener('click', openGate);
     $('eggModel').addEventListener('click', openGate);
-    $('spinEggBtn').addEventListener('click', () => $('eggModel').focus());
-    $('backEntryBtn').addEventListener('click', () => showScreen('entry'));
+    $('enterGateBtn').addEventListener('click', openGate);
+    $('rotateHintBtn').addEventListener('click', () => $('eggModel').focus());
+    $('backEntryBtn').addEventListener('click', () => show('entry'));
     $('confirmGateBtn').addEventListener('click', confirmGate);
-    $('siteBackGateBtn').addEventListener('click', () => showScreen('gate'));
-    $('resetFlowBtn').addEventListener('click', () => {
-      setConfirmed(false);
-      sessionStorage.removeItem(VISITOR_KEY);
-      $('accessPhrase').value = '';
-      log('Session locked. Returning to entry card.');
-      showScreen('entry');
-    });
+    $('siteBackGateBtn').addEventListener('click', () => show('gate'));
+    $('resetFlowBtn').addEventListener('click', () => { sessionStorage.removeItem(confirmedKey); show('entry'); });
 
     ['visitorName', 'visitorEmail', 'visitorRole', 'accessPhrase'].forEach((id) => {
       $(id).addEventListener('keydown', (event) => {
@@ -631,9 +441,10 @@ Step 3: website remains locked until confirmation.</div>
       });
     });
 
-    const savedSummary = sessionStorage.getItem(VISITOR_KEY);
-    if (savedSummary) $('visitorSummary').textContent = savedSummary;
-    restoreFromHash();
+    const start = location.hash.replace('#', '');
+    if (start === 'gate') show('gate');
+    else if (start === 'site') show('site');
+    else show('entry');
   </script>
 </body>
 </html>
